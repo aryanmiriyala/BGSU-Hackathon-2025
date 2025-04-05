@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import WorldMap from "./components/WorldMap";
+import DiseaseInfo from "./components/DiseaseInfo";
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -47,9 +48,13 @@ function App() {
               boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
               fontSize: "14px",
               zIndex: 10,
+              minWidth: "300px",
             }}
           >
-            Selected Country: <strong>{selectedCountry}</strong>
+            <div style={{ marginBottom: "10px" }}>
+              Selected Country: <strong>{selectedCountry}</strong>
+            </div>
+            <DiseaseInfo country={selectedCountry} />
           </div>
         )}
       </main>

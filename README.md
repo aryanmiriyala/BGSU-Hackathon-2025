@@ -93,3 +93,9 @@ travel-health/
 ## License
 
 MIT
+
+
+## Database connection
+mongosh "mongodb+srv://gebhartlt:n57zTw%24QKB2CgV3i@cluster0.jsacasx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+To run: node server.js
