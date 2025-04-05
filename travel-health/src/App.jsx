@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import WorldMap from "./components/WorldMap";
+import Chatbot from "./components/Chatbot";
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [chatOpen, setChatOpen] = useState(false);
 
   return (
     <div
@@ -14,7 +16,6 @@ function App() {
         fontFamily: "system-ui, sans-serif",
       }}
     >
-      {/* Header */}
       <header
         style={{
           height: "60px",
@@ -25,14 +26,12 @@ function App() {
           justifyContent: "center",
           fontSize: "20px",
           fontWeight: "600",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
         }}
       >
         Travel Health Advisory Map
       </header>
 
-      {/* Map + Floating Country Display */}
-      <main style={{ flex: 1, position: "relative", overflow: "hidden" }}>
+      <main style={{ flex: 1, position: "relative" }}>
         <WorldMap onCountryClick={setSelectedCountry} />
 
         {selectedCountry && (
@@ -51,6 +50,32 @@ function App() {
           >
             Selected Country: <strong>{selectedCountry}</strong>
           </div>
+        )}
+
+        <Chatbot open={chatOpen} onClose={() => setChatOpen(false)} />
+
+        {/* Chat Toggle Button */}
+        {!chatOpen && (
+          <button
+            onClick={() => setChatOpen(true)}
+            style={{
+              position: "absolute",
+              bottom: "20px",
+              right: "20px",
+              padding: "12px 16px",
+              borderRadius: "50%",
+              fontSize: "20px",
+              backgroundColor: "#1f2937",
+              color: "white",
+              border: "none",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
+              cursor: "pointer",
+              zIndex: 10,
+            }}
+            title="Open Chat"
+          >
+            💬
+          </button>
         )}
       </main>
     </div>
