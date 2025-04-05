@@ -1,17 +1,16 @@
 import React from "react";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
-// This is the only supported working geo URL
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 const WorldMap = ({ onCountryClick }) => {
   return (
-    <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+    <div style={{ width: "100%", height: "100%" }}>
       <ComposableMap
         projectionConfig={{ scale: 160 }}
         width={980}
-        height={500}
-        style={{ width: "100%", height: "auto" }}
+        height={480}
+        style={{ width: "100%", height: "100%" }}
       >
         <Geographies geography={geoUrl}>
           {({ geographies }) =>
