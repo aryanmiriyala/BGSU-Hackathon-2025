@@ -14,8 +14,7 @@ function App() {
       const res = await fetch(
         `http://localhost:5000/api/diseases/${encodeURIComponent(country)}`,
         {
-          credentials: "include",
-          headers: { Accept: "application/json" },
+          headers: { Accept: "application/json" }
         }
       );
       const data = await res.json();
@@ -36,7 +35,7 @@ function App() {
       setInfoVisible(true);
     }
   };
-  
+
 
   return (
     <div
@@ -119,7 +118,7 @@ function App() {
 
             {/* Conditionally render only when visible */}
             {infoVisible && (
-  <>
+              <>
                 {!diseaseData ? (
                   <div style={{ padding: "10px 0", color: "#555" }}>
                     Loading health data for <strong>{selectedCountry}</strong>...
