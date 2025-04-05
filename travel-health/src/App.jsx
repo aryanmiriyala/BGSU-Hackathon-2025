@@ -12,9 +12,9 @@ function App() {
   const fetchDiseaseData = async (country) => {
     try {
       const res = await fetch(
-        `http://localhost:5000/api/diseases/${encodeURIComponent(country)}`,
+        `http://localhost:5020/api/diseases/${encodeURIComponent(country)}`,
         {
-          headers: { Accept: "application/json" }
+          headers: { Accept: "application/json" },
         }
       );
       const data = await res.json();
@@ -35,7 +35,6 @@ function App() {
       setInfoVisible(true);
     }
   };
-
 
   return (
     <div
@@ -115,13 +114,13 @@ function App() {
               Selected Country: <strong>{selectedCountry}</strong>
             </div>
 
-
             {/* Conditionally render only when visible */}
             {infoVisible && (
               <>
                 {!diseaseData ? (
                   <div style={{ padding: "10px 0", color: "#555" }}>
-                    Loading health data for <strong>{selectedCountry}</strong>...
+                    Loading health data for <strong>{selectedCountry}</strong>
+                    ...
                   </div>
                 ) : (
                   <DiseaseInfo country={selectedCountry} data={diseaseData} />
