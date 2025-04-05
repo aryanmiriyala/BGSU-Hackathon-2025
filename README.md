@@ -1,94 +1,100 @@
 # Travel Health Advisory Map
 
-This is a React 18 + Vite application that uses [react-simple-maps](https://www.react-simple-maps.io/) to render an interactive world map. When you click on a country, it shows the country name. The setup is lightweight, easy to extend, and styled with minimal custom CSS.
+This project is a React application built with Vite that displays an interactive world map using `react-simple-maps`. Clicking on a country highlights it and shows the selected country name. A floating AI chatbot using Mistral AI is also integrated to answer health-related questions.
 
-## Prerequisites
+## Requirements
 
-Make sure all group members have the following installed:
-
-- Node.js (v16 or later)
-- npm (v8 or later)
-
-You can check by running:
-
-```bash
-node -v
-npm -v
-```
-
-## React Version
-
-This project uses:
-
-- **React v18**
-- **react-dom v18**
+- Node.js v16 or higher
+- npm (comes with Node.js)
 
 ## Setup Instructions
 
-1. **Clone the repository**:
+### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/travel-health.git
+git clone https://your-repo-url.git
 cd travel-health
 ```
 
-2. **Install the dependencies**:
+### 2. Install Dependencies
+
+Make sure you're using **React 18**, as `react-simple-maps` does not support React 19.
+
+```bash
+npm uninstall react react-dom
+npm install react@18 react-dom@18
+```
+
+Then install all dependencies:
 
 ```bash
 npm install
+npm install react-simple-maps d3 topojson axios react-router-dom
 ```
 
-3. **Run the development server**:
+### 3. Set Up Mistral AI API Key
+
+Create a `.env` file in the root of the project and add your Mistral API key:
+
+```
+VITE_MISTRAL_API_KEY=your_mistral_api_key_here
+```
+
+> Do **not** commit this file to Git. It is already ignored via `.gitignore`.
+
+### 4. Run the Application
 
 ```bash
 npm run dev
 ```
 
-The app will be running at:
+Visit `http://localhost:5173` in your browser.
 
-```
-http://localhost:5173
-```
+## Project Features
 
-## Key Dependencies
+- 🌍 **Interactive World Map** — Built with `react-simple-maps`. Click on a country to view its name.
+- 🤖 **Floating AI Chatbot** — Ask questions about travel health using Mistral AI. Chatbot is toggleable and floats over the map.
+- 🔐 **Environment-secure API integration** — Your Mistral API key is safely stored using Vite's `.env` system.
+- 👥 **Login/Signup Page** — React Router is used to navigate between authentication and the main map.
 
-```json
-"react": "^18.0.0",
-"react-dom": "^18.0.0",
-"react-simple-maps": "^3.0.0",
-"d3": "^7.0.0",
-"topojson": "^3.0.2"
-```
-
-## Map Configuration
-
-The map uses a stable TopoJSON source:
-
-```js
-const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
-```
-
-## Project Structure
+## File Structure
 
 ```
 travel-health/
-├── public/
 ├── src/
 │   ├── components/
-│   │   └── WorldMap.jsx       # Main map logic and rendering
-│   ├── App.jsx                # Application wrapper
-│   ├── main.jsx               # React root
-│   └── index.css              # Basic global styles
-├── index.html                 # HTML entry point
-├── package.json               # Project metadata and scripts
-└── README.md                  # Project documentation
+│   │   ├── WorldMap.jsx
+│   │   └── Chatbot.jsx
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   └── Signup.jsx
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── .env.example
+├── .gitignore
+├── index.html
+├── package.json
+└── README.md
 ```
 
-## Next Steps
+## Dependencies
 
-- Hook up real health data APIs per country
-- Add a sidebar or popup component to display country details
-- Style the app using TailwindCSS or another framework
+```json
+"react": "^18",
+"react-dom": "^18",
+"react-simple-maps": "^3.0.0",
+"d3": "^7.8.5",
+"topojson": "^3.0.2",
+"axios": "^1.6.7",
+"react-router-dom": "^6.22.3"
+```
+
+## Notes
+
+- Do **not upgrade React to 19**, as it will cause peer dependency issues with `react-simple-maps`.
+- If the map does not load, ensure that the `geoUrl` in `WorldMap.jsx` is correct and accessible.
+- For Mistral API details, visit [https://docs.mistral.ai](https://docs.mistral.ai)
 
 ## License
 
