@@ -77,8 +77,10 @@ function App() {
               boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
               fontSize: "14px",
               zIndex: 10,
-              minWidth: "300px",
+              minWidth: "340px",
+              maxWidth: "400px",
               maxHeight: "80vh",
+              wordBreak: "break-word",
               overflowY: "auto",
             }}
           >
@@ -100,9 +102,18 @@ function App() {
               {infoVisible ? "_" : "▢"}
             </button>
 
-            <div style={{ marginBottom: "10px", paddingTop: "10px" }}>
+            <div
+              style={{
+                marginBottom: "10px",
+                paddingTop: "10px",
+                paddingRight: "24px", // space for the maximize button
+                whiteSpace: "normal",
+                wordWrap: "break-word",
+              }}
+            >
               Selected Country: <strong>{selectedCountry}</strong>
             </div>
+
 
             {/* Conditionally render only when visible */}
             {infoVisible && diseaseData && (
