@@ -31,10 +31,12 @@ function App() {
       setInfoVisible((prev) => !prev);
     } else {
       setSelectedCountry(country);
+      setDiseaseData(null); // ⬅️ Clear out previous data immediately
       fetchDiseaseData(country);
       setInfoVisible(true);
     }
   };
+  
 
   return (
     <div
@@ -116,8 +118,16 @@ function App() {
 
 
             {/* Conditionally render only when visible */}
-            {infoVisible && diseaseData && (
-              <DiseaseInfo country={selectedCountry} data={diseaseData} />
+            {infoVisible && (
+  <>
+                {!diseaseData ? (
+                  <div style={{ padding: "10px 0", color: "#555" }}>
+                    Loading health data for <strong>{selectedCountry}</strong>...
+                  </div>
+                ) : (
+                  <DiseaseInfo country={selectedCountry} data={diseaseData} />
+                )}
+              </>
             )}
           </div>
         )}
