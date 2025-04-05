@@ -1,5 +1,5 @@
 // src/components/DiseaseInfo.jsx
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const DiseaseInfo = ({ country }) => {
     const [diseaseData, setDiseaseData] = useState(null);
@@ -32,32 +32,30 @@ const DiseaseInfo = ({ country }) => {
                 disease.availabilityOfVaccines.toLowerCase().includes('available');
             const riskLevel = calculateRiskLevel(disease);
 
-            if (requiresVaccination) {
-                acc.vaccineRequired.push({ ...disease, riskLevel });
-            } else {
-                acc.other.push({ ...disease, riskLevel });
-            }
-            return acc;
-        }, { vaccineRequired: [], other: [] });
-    };
+      if (requiresVaccination) {
+        acc.vaccineRequired.push(diseaseWithRisk);
+      } else {
+        acc.other.push(diseaseWithRisk);
+      }
 
-    const calculateRiskLevel = (disease) => {
-        const populationRisk = disease.populationAffected > 100000;
-        const lowHealthcareAccess = disease.healthcareAccess < 70;
-        const lowRecoveryRate = disease.recoveryRate < 85;
+      return acc;
+    }, { vaccineRequired: [], other: [] });
+  };
 
-        if (populationRisk && (lowHealthcareAccess || lowRecoveryRate)) {
-            return 'high';
-        } else if (populationRisk || lowHealthcareAccess || lowRecoveryRate) {
-            return 'medium';
-        }
-        return 'low';
-    };
+  const calculateRiskLevel = (disease) => {
+    const populationRisk = disease.populationAffected > 100000;
+    const lowHealthcareAccess = disease.healthcareAccess < 70;
+    const lowRecoveryRate = disease.recoveryRate < 85;
 
-    if (!country) return null;
-    if (loading) return <div>Loading health information...</div>;
-    if (error) return <div>Error loading data: {error}</div>;
-    if (!diseaseData) return <div>No health data available for {country}</div>;
+    if (populationRisk && (lowHealthcareAccess || lowRecoveryRate)) {
+      return "high";
+    } else if (populationRisk || lowHealthcareAccess || lowRecoveryRate) {
+      return "medium";
+    }
+    return "low";
+  };
+
+  const diseaseData = organizeData(data);
 
     return (
         <div style={{ maxHeight: "80vh", overflowY: "auto", padding: "15px" }}>
