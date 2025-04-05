@@ -4,23 +4,16 @@ import WorldMap from "./components/WorldMap";
 function App() {
   const [selectedCountry, setSelectedCountry] = useState(null);
 
-  const handleCountryClick = (countryName) => {
-    setSelectedCountry(countryName);
-    // Here you'll later call API or fetch metrics
-    console.log("Selected country:", countryName);
-  };
-
   return (
-    <div className="p-6 font-sans">
-      <h1 className="text-2xl font-bold mb-4">🌍 Travel Health Advisory</h1>
-      <WorldMap onCountryClick={handleCountryClick} />
+    <div style={{ height: "100vh", width: "100vw", textAlign: "center" }}>
+      <h1 style={{ margin: "16px 0", fontSize: "24px" }}>
+        Travel Health Advisory Map
+      </h1>
+      <WorldMap onCountryClick={setSelectedCountry} />
       {selectedCountry && (
-        <div className="mt-6 p-4 bg-gray-100 rounded shadow">
-          <h2 className="text-xl font-semibold mb-2">
-            Health Advisory for {selectedCountry}
-          </h2>
-          <p>Loading health metrics...</p>
-        </div>
+        <p style={{ marginTop: "16px" }}>
+          Selected Country: <strong>{selectedCountry}</strong>
+        </p>
       )}
     </div>
   );
