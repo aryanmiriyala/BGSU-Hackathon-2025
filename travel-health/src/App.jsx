@@ -1,11 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import WorldMap from "./components/WorldMap";
 import DiseaseInfo from "./components/DiseaseInfo";
 import Chatbot from "./components/Chatbot";
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [diseaseData, setDiseaseData] = useState(null);
+  const [infoVisible, setInfoVisible] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
+
+  const fetchDiseaseData = async (country) => {
+    try {
+      const res = await fetch(
+        `http://localhost:5000/api/diseases/${encodeURIComponent(country)}`,
+        {
+          credentials: "include",
+          headers: { Accept: "application/json" },
+        }
+      );
+      const data = await res.json();
+      setDiseaseData(data);
+    } catch (error) {
+      console.error("Failed to fetch disease data:", error);
+      setDiseaseData(null);
+    }
+  };
+
+  const handleCountryClick = (country) => {
+    if (country === selectedCountry) {
+      setInfoVisible((prev) => !prev);
+    } else {
+      setSelectedCountry(country);
+      fetchDiseaseData(country);
+      setInfoVisible(true);
+    }
+  };
 
   return (
     <div
@@ -33,8 +62,9 @@ function App() {
       </header>
 
       <main style={{ flex: 1, position: "relative" }}>
-        <WorldMap onCountryClick={setSelectedCountry} />
+        <WorldMap onCountryClick={handleCountryClick} />
 
+        {/* Popup panel */}
         {selectedCountry && (
           <div
             style={{
@@ -48,18 +78,42 @@ function App() {
               fontSize: "14px",
               zIndex: 10,
               minWidth: "300px",
+              maxHeight: "80vh",
+              overflowY: "auto",
             }}
           >
-            <div style={{ marginBottom: "10px" }}>
+            {/* Top-right control: minimize/maximize */}
+            <button
+              onClick={() => setInfoVisible((prev) => !prev)}
+              style={{
+                position: "absolute",
+                top: "6px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "18px",
+                cursor: "pointer",
+                color: "#888",
+              }}
+              title={infoVisible ? "Minimize" : "Expand"}
+            >
+              {infoVisible ? "_" : "▢"}
+            </button>
+
+            <div style={{ marginBottom: "10px", paddingTop: "10px" }}>
               Selected Country: <strong>{selectedCountry}</strong>
             </div>
-            <DiseaseInfo country={selectedCountry} />
+
+            {/* Conditionally render only when visible */}
+            {infoVisible && diseaseData && (
+              <DiseaseInfo country={selectedCountry} data={diseaseData} />
+            )}
           </div>
         )}
 
+        {/* Chat widget */}
         <Chatbot open={chatOpen} onClose={() => setChatOpen(false)} />
 
-        {/* Chat Toggle Button */}
         {!chatOpen && (
           <button
             onClick={() => setChatOpen(true)}
