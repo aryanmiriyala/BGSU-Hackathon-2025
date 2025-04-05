@@ -9,9 +9,11 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
-    credentials: true
+    origin: '*', // Allow all origins during development
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow all methods
+    allowedHeaders: ['Content-Type', 'Accept'], // Allow these headers
 }));
+
 app.use(express.json());
 
 mongoose.connect('mongodb+srv://gebhartlt:n57zTw$QKB2CgV3i@cluster0.jsacasx.mongodb.net/disease?retryWrites=true&w=majority')
