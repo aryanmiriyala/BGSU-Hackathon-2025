@@ -10,7 +10,6 @@ const DiseaseInfo = ({ country }) => {
         if (country) {
             setLoading(true);
             fetch(`http://localhost:5000/api/diseases/${encodeURIComponent(country)}`, {
-                credentials: 'include',
                 headers: { 'Accept': 'application/json' }
             })
                 .then(response => response.json())
