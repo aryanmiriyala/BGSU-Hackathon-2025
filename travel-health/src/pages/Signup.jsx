@@ -1,68 +1,47 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    // TODO: Save user data
-    navigate("/map");
+  const handleSignup = async () => {
+    const res = await fetch('http://localhost:3001/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      localStorage.setItem('username', username);
+      navigate('/health-intake');
+    } else {
+      alert(data.message || 'Signup failed.');
+    }
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Sign Up</h1>
-      <form onSubmit={handleSignup} style={styles.form}>
-        <input type="text" placeholder="Name" required style={styles.input} />
-        <input type="email" placeholder="Email" required style={styles.input} />
-        <input
-          type="password"
-          placeholder="Password"
-          required
-          style={styles.input}
-        />
-        <button type="submit" style={styles.button}>
-          Sign Up
-        </button>
-      </form>
-      <p>
-        Already have an account? <Link to="/">Log in</Link>
-      </p>
+    <div className="signup-page">
+      <h2>Sign Up</h2>
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={e => setUsername(e.target.value)}
+      />
+      <br />
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
+      />
+      <br />
+      <button onClick={handleSignup}>Sign Up</button>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    fontFamily: "sans-serif",
-  },
-  title: {
-    fontSize: "28px",
-    marginBottom: "20px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    width: "250px",
-    gap: "10px",
-  },
-  input: {
-    padding: "10px",
-    fontSize: "16px",
-  },
-  button: {
-    padding: "10px",
-    backgroundColor: "#1f2937",
-    color: "white",
-    fontSize: "16px",
-    cursor: "pointer",
-  },
 };
 
 export default Signup;
