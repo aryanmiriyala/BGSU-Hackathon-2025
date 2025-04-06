@@ -7,17 +7,29 @@
 }
 
 .header {
-  height: 72px; /* slightly taller */
+  height: 88px; /* increased from 60px/72px */
   background-color: #1f2937;
   color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
-  font-size: 22px;
+  padding: 0 32px;
+  font-size: 24px;
   font-weight: 600;
   animation: fadeDrop 0.4s ease-out;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
+
+
+.headerTitle {
+  font-size: 32px; /* bigger title */
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: linear-gradient(to right, #34d399, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 
 .headerLeft {
   flex: 1;
@@ -25,21 +37,31 @@
 
 .headerRight {
   display: flex;
-  gap: 16px;
+  align-items: center;
+  gap: 20px;
 }
+
 
 .headerButton {
   background: none;
   border: none;
   color: white;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 20px;
   transition: background-color 0.2s ease-in-out;
 }
 
 .headerButton:hover {
   background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+.highlight {
+  background: linear-gradient(to right, #fbbf24, #f97316); /* yellow-orange for 'Health Advisory' */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .main {
