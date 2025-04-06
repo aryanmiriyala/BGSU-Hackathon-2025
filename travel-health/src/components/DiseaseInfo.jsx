@@ -81,8 +81,8 @@ const DiseaseInfo = ({ country, data }) => {
                       disease.riskLevel === "high"
                         ? "#dc2626"
                         : disease.riskLevel === "medium"
-                        ? "#f59e0b"
-                        : "#10b981",
+                          ? "#f59e0b"
+                          : "#10b981",
                   }}
                 >
                   {disease.riskLevel.charAt(0).toUpperCase() +
