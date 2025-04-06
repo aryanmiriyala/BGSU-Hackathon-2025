@@ -87,8 +87,8 @@ function App() {
  
 
       <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          Travel Health Advisory Map
+        <div className={styles.headerTitle}>
+            Travel <span className={styles.highlight}>Health Advisory</span> Map
         </div>
         <div className={styles.headerRight}>
           <motion.button
