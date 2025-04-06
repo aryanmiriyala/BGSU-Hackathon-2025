@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { FiX, FiSend, FiMaximize2, FiMinimize2 } from "react-icons/fi";
 import styles from "./Chatbot.module.css";
 
-const Chatbot = ({ open, onClose, userId }) => {
+const Chatbot = ({ open, onClose, userId, maximized, setMaximized }) => {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -14,28 +15,23 @@ const Chatbot = ({ open, onClose, userId }) => {
   const [userContext, setUserContext] = useState("");
 
   useEffect(() => {
+    if (!userId) return;
     const fetchUserHealthData = async () => {
-      if (!userId) return;
-
       try {
         const res = await fetch(`http://localhost:5020/api/health/${userId}`);
         if (!res.ok) return;
-
         const data = await res.json();
-
         const context = Object.entries(data)
-          .map(([key, value]) => {
-            if (Array.isArray(value)) return `${key}: ${value.join(", ")}`;
-            return `${key}: ${value}`;
-          })
+          .map(
+            ([key, value]) =>
+              `${key}: ${Array.isArray(value) ? value.join(", ") : value}`
+          )
           .join("\n");
-
         setUserContext(context);
       } catch (error) {
-        console.error("Error loading user health data:", error);
+        console.error("Error fetching health data:", error);
       }
     };
-
     fetchUserHealthData();
   }, [userId]);
 
@@ -43,8 +39,7 @@ const Chatbot = ({ open, onClose, userId }) => {
     if (!input.trim()) return;
 
     const userMessage = { role: "user", content: input };
-    const updatedMessages = [...messages, userMessage];
-    setMessages(updatedMessages);
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
 
@@ -52,11 +47,10 @@ const Chatbot = ({ open, onClose, userId }) => {
       const messagesWithContext = [
         {
           role: "system",
-          content:
-            "You are a helpful travel health assistant. Use the following user health info to personalize responses:\n\n" +
-            (userContext || "No user-specific context available."),
+          content: `You are a helpful travel health assistant. Personalize responses:\n\n${userContext}`,
         },
-        ...updatedMessages,
+        ...messages,
+        userMessage,
       ];
 
       const response = await axios.post(
@@ -74,15 +68,12 @@ const Chatbot = ({ open, onClose, userId }) => {
       );
 
       const aiReply = response.data.choices[0].message;
-      setMessages([...updatedMessages, aiReply]);
+      setMessages((prev) => [...prev, aiReply]);
     } catch (err) {
-      console.error("Mistral error:", err);
-      setMessages([
-        ...updatedMessages,
-        {
-          role: "assistant",
-          content: "Oops! Something went wrong while processing your request.",
-        },
+      console.error(err);
+      setMessages((prev) => [
+        ...prev,
+        { role: "assistant", content: "Oops! Something went wrong." },
       ]);
     } finally {
       setLoading(false);
@@ -92,33 +83,34 @@ const Chatbot = ({ open, onClose, userId }) => {
   if (!open) return null;
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${maximized ? styles.maximized : ""}`}>
       <div className={styles.header}>
         <span>Travel Health Assistant</span>
-        <button onClick={onClose} className={styles.close}>
-          ×
-        </button>
+        <div className={styles.headerButtons}>
+          <button
+            onClick={() => setMaximized(!maximized)}
+            className={styles.iconButton}
+          >
+            {maximized ? <FiMinimize2 /> : <FiMaximize2 />}
+          </button>
+          <button onClick={onClose} className={styles.iconButton}>
+            <FiX />
+          </button>
+        </div>
       </div>
 
       <div className={styles.chatArea}>
         {messages.map((msg, idx) => (
           <div
             key={idx}
-            className={styles.message}
-            style={{
-              alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
-              backgroundColor: msg.role === "user" ? "#e0f7fa" : "#f1f1f1",
-            }}
+            className={`${styles.message} ${
+              msg.role === "user" ? styles.userMessage : styles.botMessage
+            }`}
           >
-            <strong>{msg.role === "user" ? "You" : "Bot"}:</strong>{" "}
             {msg.content}
           </div>
         ))}
-        {loading && (
-          <div className={styles.message}>
-            <em>Typing...</em>
-          </div>
-        )}
+        {loading && <div className={styles.typing}>Typing...</div>}
       </div>
 
       <div className={styles.inputArea}>
@@ -129,8 +121,8 @@ const Chatbot = ({ open, onClose, userId }) => {
           placeholder="Ask a question..."
           className={styles.input}
         />
-        <button onClick={handleSend} className={styles.send}>
-          Send
+        <button onClick={handleSend} className={styles.sendButton}>
+          <FiSend />
         </button>
       </div>
     </div>
