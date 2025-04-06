@@ -77,7 +77,7 @@ function App() {
               boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
               fontSize: "14px",
               zIndex: 10,
-              minWidth: "340px",
+              minWidth: "400px",
               maxWidth: "400px",
               maxHeight: "80vh",
               wordBreak: "break-word",
