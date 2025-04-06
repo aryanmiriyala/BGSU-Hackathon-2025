@@ -1,0 +1,37 @@
+.container {
+  padding: 40px;
+  max-width: 500px;
+  margin: auto;
+  font-family: sans-serif;
+}
+
+.heading {
+  margin-bottom: 20px;
+  color: #1f2937;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button {
+  padding: 10px;
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.button:hover {
+  background-color: #374151;
+}
