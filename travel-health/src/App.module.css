@@ -7,40 +7,39 @@
 }
 
 .header {
-  height: 60px;
+  height: 72px; /* slightly taller */
   background-color: #1f2937;
   color: white;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* changed from center */
-  padding: 0 16px; /* add some spacing */
+  justify-content: space-between;
+  padding: 0 24px;
+  font-size: 22px;
+  font-weight: 600;
   animation: fadeDrop 0.4s ease-out;
 }
 
-
 .headerLeft {
-  font-size: 20px;
-  font-weight: 600;
+  flex: 1;
 }
 
 .headerRight {
   display: flex;
-  gap: 12px;
-  align-items: center;
+  gap: 16px;
 }
 
 .headerButton {
-  background: #374151;
-  color: white;
+  background: none;
   border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
+  color: white;
   cursor: pointer;
-  transition: background 0.2s ease;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .headerButton:hover {
-  background: #4b5563;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .main {

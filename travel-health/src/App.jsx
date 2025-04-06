@@ -6,6 +6,8 @@ import HealthForm from "./components/HealthForm";
 import styles from "./App.module.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Moon, Sun, LogOut } from "lucide-react";
+import { motion } from "framer-motion";
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -89,23 +91,26 @@ function App() {
           Travel Health Advisory Map
         </div>
         <div className={styles.headerRight}>
-          <button
+          <motion.button
+            whileTap={{ scale: 0.9 }}
             onClick={toggleDarkMode}
             className={styles.headerButton}
-            aria-label="Toggle Dark Mode"
+            title="Toggle Dark Mode"
           >
-            {darkMode ? "☀️" : "🌙"}
-          </button>
-          <button
+            {darkMode ? <Sun size={24} /> : <Moon size={24} />}
+          </motion.button>
+
+          <motion.button
+            whileTap={{ scale: 0.9 }}
             onClick={() => {
-              // TODO: Add real logout logic
               localStorage.clear();
               window.location.reload();
             }}
             className={styles.headerButton}
+            title="Logout"
           >
-            Logout
-          </button>
+            <LogOut size={24} />
+          </motion.button>
         </div>
       </header>
 
