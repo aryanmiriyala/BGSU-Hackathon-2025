@@ -1,3 +1,23 @@
+# Project Name: Travel Helth Adviser 
+
+![helth](images/helth.png)
+
+# Team Name
+
+VibeCoders
+
+# Track
+
+- AI/ML
+- Health
+
+# Team Members
+
+- Aryan Miriyala
+- Cristian Vasu
+- Daltiso Mtalimanja
+- Tibor Gebhartl
+
 # Travel Health Advisory Map
 
 This project is a React application built with Vite that displays an interactive world map using `react-simple-maps`. Clicking on a country highlights it and shows the selected country name. A floating AI chatbot using Mistral AI is also integrated to answer health-related questions.
