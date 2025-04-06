@@ -13,26 +13,27 @@ function App() {
     return storedMode === "true";
   });
 
-  const toggleDarkMode = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    localStorage.setItem("darkMode", newMode);
-  };
-
+  const [userId, setUserId] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [diseaseData, setDiseaseData] = useState(null);
   const [infoVisible, setInfoVisible] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [hasHealthInfo, setHasHealthInfo] = useState(null);
 
-  const userId = sessionStorage.getItem("userId");
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem("darkMode", newMode);
+  };
+
+  useEffect(() => {
+    const storedId = localStorage.getItem("userId");
+    if (storedId) setUserId(storedId);
+  }, []);
 
   useEffect(() => {
     const checkHealthInfo = async () => {
-      if (!userId) {
-        setHasHealthInfo(false);
-        return;
-      }
+      if (!userId) return;
 
       try {
         const res = await fetch(`http://localhost:5020/api/health/${userId}`);
@@ -76,7 +77,7 @@ function App() {
   if (hasHealthInfo === null) return <div>Loading...</div>;
 
   if (!hasHealthInfo) {
-    return <HealthForm onSubmit={handleHealthFormSubmitted} />;
+    return <HealthForm onSubmit={handleHealthFormSubmitted} userId={userId} />;
   }
 
   return (
@@ -117,16 +118,13 @@ function App() {
                   <div className={styles.loading}>
                     <div className={styles.spinner} />
                     <div>
-                      Loading health data for{" "}
-                      <strong>{selectedCountry}</strong>...
+                      Loading health data for <strong>{selectedCountry}</strong>
+                      ...
                     </div>
                   </div>
                 ) : (
                   <div className={styles.fadeIn}>
-                    <DiseaseInfo
-                      country={selectedCountry}
-                      data={diseaseData}
-                    />
+                    <DiseaseInfo country={selectedCountry} data={diseaseData} />
                   </div>
                 )}
               </>
@@ -134,7 +132,11 @@ function App() {
           </div>
         )}
 
-        <Chatbot open={chatOpen} onClose={() => setChatOpen(false)} />
+        <Chatbot
+          open={chatOpen}
+          onClose={() => setChatOpen(false)}
+          userId={userId}
+        />
 
         {!chatOpen && (
           <button
@@ -147,7 +149,6 @@ function App() {
         )}
       </main>
 
-      {/* ✅ Toast messages appear here */}
       <ToastContainer />
     </div>
   );
