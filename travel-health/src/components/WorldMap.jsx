@@ -37,14 +37,6 @@ const WorldMap = ({ onCountryClick, selectedCountry }) => {
                     fill: "#42A5F5",
                     outline: "none",
                   },
-                  hover: {
-                    fill: "#90CAF9",
-                    outline: "none",
-                  },
-                  pressed: {
-                    fill: "#42A5F5",
-                    outline: "none",
-                  },
                 }}
               />
             ))
