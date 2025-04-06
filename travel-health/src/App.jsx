@@ -88,7 +88,7 @@ function App() {
 
       <header className={styles.header}>
         <div className={styles.headerTitle}>
-            Travel <span className={styles.highlight}>Health Advisory</span> Map
+             Travel <span className={styles.highlightTitle}>Health Advisory</span> Map
         </div>
         <div className={styles.headerRight}>
           <motion.button
@@ -109,8 +109,10 @@ function App() {
             className={styles.headerButton}
             title="Logout"
           >
-            <LogOut size={24} />
+            <LogOut size={22} className={styles.icon} />
+            <span className={styles.buttonText}>Logout</span>
           </motion.button>
+
         </div>
       </header>
 
