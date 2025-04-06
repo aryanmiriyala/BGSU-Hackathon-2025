@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import WorldMap from "./components/WorldMap";
 import DiseaseInfo from "./components/DiseaseInfo";
 import Chatbot from "./components/Chatbot";
+import "./App.css";
 
 function App() {
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -47,6 +48,7 @@ function App() {
       }}
     >
       <header
+        className="fade-drop"
         style={{
           height: "60px",
           backgroundColor: "#1f2937",
@@ -62,11 +64,15 @@ function App() {
       </header>
 
       <main style={{ flex: 1, position: "relative" }}>
-        <WorldMap onCountryClick={handleCountryClick} />
+        <WorldMap
+          onCountryClick={handleCountryClick}
+          selectedCountry={selectedCountry}
+        />
 
         {/* Popup panel */}
         {selectedCountry && (
           <div
+            className = "slide-in"
             style={{
               position: "absolute",
               top: "20px",
@@ -86,6 +92,7 @@ function App() {
           >
             {/* Top-right control: minimize/maximize */}
             <button
+              className="button-animate"
               onClick={() => setInfoVisible((prev) => !prev)}
               style={{
                 position: "absolute",
@@ -118,13 +125,30 @@ function App() {
             {infoVisible && (
               <>
                 {!diseaseData ? (
-                  <div style={{ padding: "10px 0", color: "#555" }}>
-                    Loading health data for <strong>{selectedCountry}</strong>
-                    ...
+                  <div
+                    style={{
+                      padding: "20px",
+                      textAlign: "center",
+                      color: "#555",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "8px",
+                    }}
+                  >
+                    <div className="spinner" />
+                    <div>
+                      Loading health data for <strong>{selectedCountry}</strong>...
+                    </div>
                   </div>
                 ) : (
-                  <DiseaseInfo country={selectedCountry} data={diseaseData} />
-                )}
+                  <div className="fade-in">
+                    <DiseaseInfo country={selectedCountry} data={diseaseData} />
+                  </div>
+                  
+                )
+                }
+
               </>
             )}
           </div>
@@ -135,6 +159,7 @@ function App() {
 
         {!chatOpen && (
           <button
+            className="button-animate"
             onClick={() => setChatOpen(true)}
             style={{
               position: "absolute",
