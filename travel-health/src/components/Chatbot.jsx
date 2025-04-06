@@ -22,7 +22,7 @@ const Chatbot = ({ open, onClose }) => {
       const response = await axios.post(
         "https://api.mistral.ai/v1/chat/completions",
         {
-          model: "mistral-tiny",
+          model: "mistral-large-latest",
           messages: updatedMessages,
         },
         {
