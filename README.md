@@ -2,8 +2,6 @@
 
 ![helth](images/helth.png)
 
-https://github.com/aryanmiriyala/BGSU-Hackathon-2025
-
 # Team Name
 
 VibeCoders
