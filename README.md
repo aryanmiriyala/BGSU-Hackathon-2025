@@ -13,7 +13,7 @@ VibeCoders
 
 # Link to Our Video
 
-https://www.youtube.com/watch?v=JcUaDmVnMPU&feature=youtu.be
+https://youtu.be/xOs7IWyre4E
 
 # Team Members
 
