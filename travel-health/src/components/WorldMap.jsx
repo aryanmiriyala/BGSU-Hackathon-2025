@@ -3,7 +3,7 @@ import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
-const WorldMap = ({ onCountryClick }) => {
+const WorldMap = ({ onCountryClick, selectedCountry }) => {
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <ComposableMap
@@ -21,9 +21,20 @@ const WorldMap = ({ onCountryClick }) => {
                 onClick={() => onCountryClick(geo.properties.name)}
                 style={{
                   default: {
-                    fill: "#E0E0E0",
+                    fill:
+                      selectedCountry === geo.properties.name
+                        ? "#42A5F5" // blue highlight if selected
+                        : "#E0E0E0", // default gray
                     stroke: "#607D8B",
                     strokeWidth: 0.5,
+                    outline: "none",
+                  },
+                  hover: {
+                    fill: "#90CAF9", // same as before
+                    outline: "none",
+                  },
+                  pressed: {
+                    fill: "#42A5F5",
                     outline: "none",
                   },
                   hover: {
