@@ -85,11 +85,10 @@ function App() {
 
   return (
     <div className={`${styles.appContainer} ${darkMode ? "dark" : ""}`}>
- 
-
       <header className={styles.header}>
         <div className={styles.headerTitle}>
-             Travel <span className={styles.highlightTitle}>Health Advisory</span> Map
+          Travel <span className={styles.highlightTitle}>Health Advisory</span>{" "}
+          Map
         </div>
         <div className={styles.headerRight}>
           <motion.button
@@ -113,10 +112,8 @@ function App() {
             <LogOut size={22} className={styles.icon} />
             <span className={styles.buttonText}>Logout</span>
           </motion.button>
-
         </div>
       </header>
-
 
       <main className={styles.mainWrapper}>
         <div className={chatMaximized ? styles.mapShrunk : styles.mapFull}>
@@ -132,17 +129,12 @@ function App() {
                 onClick={() => setInfoVisible((prev) => !prev)}
                 title={infoVisible ? "Minimize" : "Expand"}
               >
-                {infoVisible ? <FiMinus /> : <FiMaximize />}
+                {infoVisible ? (
+                  <ChevronUp size={20} />
+                ) : (
+                  <ChevronDown size={20} />
+                )}
               </button>
-        {selectedCountry && (
-          <div className={styles.panel}>
-            <button
-              className={styles.toggleButton}
-              onClick={() => setInfoVisible((prev) => !prev)}
-              title={infoVisible ? "Minimize" : "Expand"}
-            >
-              {infoVisible ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-            </button>
 
               <div className={styles.countryHeader}>
                 Selected Country: <strong>{selectedCountry}</strong>
