@@ -82,15 +82,33 @@ function App() {
 
   return (
     <div className={`${styles.appContainer} ${darkMode ? "dark" : ""}`}>
-      <button
-        onClick={toggleDarkMode}
-        className="dark-mode-toggle"
-        aria-label="Toggle Dark Mode"
-      >
-        {darkMode ? "☀️" : "🌙"}
-      </button>
+ 
 
-      <header className={styles.header}>Travel Health Advisory Map</header>
+      <header className={styles.header}>
+        <div className={styles.headerLeft}>
+          Travel Health Advisory Map
+        </div>
+        <div className={styles.headerRight}>
+          <button
+            onClick={toggleDarkMode}
+            className={styles.headerButton}
+            aria-label="Toggle Dark Mode"
+          >
+            {darkMode ? "☀️" : "🌙"}
+          </button>
+          <button
+            onClick={() => {
+              // TODO: Add real logout logic
+              localStorage.clear();
+              window.location.reload();
+            }}
+            className={styles.headerButton}
+          >
+            Logout
+          </button>
+        </div>
+      </header>
+
 
       <main className={styles.main}>
         <WorldMap
