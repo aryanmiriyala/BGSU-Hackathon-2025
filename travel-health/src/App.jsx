@@ -19,6 +19,7 @@ function App() {
   const [infoVisible, setInfoVisible] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [hasHealthInfo, setHasHealthInfo] = useState(null);
+  const [chatMaximized, setChatMaximized] = useState(false);
 
   const toggleDarkMode = () => {
     const newMode = !darkMode;
@@ -93,49 +94,61 @@ function App() {
       <header className={styles.header}>Travel Health Advisory Map</header>
 
       <main className={styles.main}>
-        <WorldMap
-          onCountryClick={handleCountryClick}
-          selectedCountry={selectedCountry}
-        />
+        <div
+          className={`${styles.mapArea} ${
+            chatOpen && chatMaximized ? styles.shrinked : ""
+          }`}
+        >
+          <WorldMap
+            onCountryClick={handleCountryClick}
+            selectedCountry={selectedCountry}
+          />
 
-        {selectedCountry && (
-          <div className={styles.panel}>
-            <button
-              className={styles.toggleButton}
-              onClick={() => setInfoVisible((prev) => !prev)}
-              title={infoVisible ? "Minimize" : "Expand"}
-            >
-              {infoVisible ? "_" : "▢"}
-            </button>
+          {selectedCountry && (
+            <div className={styles.panel}>
+              <button
+                className={styles.toggleButton}
+                onClick={() => setInfoVisible((prev) => !prev)}
+                title={infoVisible ? "Minimize" : "Expand"}
+              >
+                {infoVisible ? "_" : "▢"}
+              </button>
 
-            <div className={styles.countryHeader}>
-              Selected Country: <strong>{selectedCountry}</strong>
-            </div>
+              <div className={styles.countryHeader}>
+                Selected Country: <strong>{selectedCountry}</strong>
+              </div>
 
-            {infoVisible && (
-              <>
-                {!diseaseData ? (
-                  <div className={styles.loading}>
-                    <div className={styles.spinner} />
-                    <div>
-                      Loading health data for <strong>{selectedCountry}</strong>
-                      ...
+              {infoVisible && (
+                <>
+                  {!diseaseData ? (
+                    <div className={styles.loading}>
+                      <div className={styles.spinner} />
+                      <div>
+                        Loading health data for{" "}
+                        <strong>{selectedCountry}</strong>
+                        ...
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className={styles.fadeIn}>
-                    <DiseaseInfo country={selectedCountry} data={diseaseData} />
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        )}
+                  ) : (
+                    <div className={styles.fadeIn}>
+                      <DiseaseInfo
+                        country={selectedCountry}
+                        data={diseaseData}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+        </div>
 
         <Chatbot
           open={chatOpen}
           onClose={() => setChatOpen(false)}
           userId={userId}
+          maximized={chatMaximized}
+          setMaximized={setChatMaximized}
         />
 
         {!chatOpen && (
