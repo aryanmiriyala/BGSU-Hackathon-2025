@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "./HealthForm.module.css";
 
-const HealthForm = () => {
-  const navigate = useNavigate();
+const HealthForm = ({ onSubmitSuccess }) => {
   const [formData, setFormData] = useState({
     allergies: "",
     chronicConditions: "",
@@ -17,11 +15,30 @@ const HealthForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Health Info Submitted:", formData);
-    localStorage.setItem("healthInfo", JSON.stringify(formData));
-    navigate("/map");
+
+    let userId = sessionStorage.getItem("userId");
+    if (!userId) {
+      userId = "userHealthInfo"; // fallback
+    }
+
+    try {
+      const res = await fetch(`http://localhost:5020/api/health/${userId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        onSubmitSuccess();
+      } else {
+        alert("Failed to submit health info.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("An error occurred. Please try again.");
+    }
   };
 
   return (
