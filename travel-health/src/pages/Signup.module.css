@@ -4,38 +4,125 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: sans-serif;
+  font-family: 'Inter', sans-serif;
+  background-color: #2e3845;
+  color: white;
 }
 
 .title {
-  font-size: 28px;
-  margin-bottom: 20px;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  width: 250px;
-  gap: 10px;
+  width: 320px;
+  gap: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .input {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.input:focus {
+  outline: none;
+  border-color: #4f90f2;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .button {
-  padding: 10px;
-  background-color: #1f2937;
+  margin-top: 1rem;
+  padding: 12px;
+  background-color: #4f90f2;
   color: white;
-  font-size: 16px;
+  font-size: 1rem;
+  font-weight: 600;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .button:hover {
-  background-color: #374151;
+  background-color: #3a7cd6;
+  transform: translateY(-1px);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.errorText {
+  color: #ff6b6b;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.loginLink {
+  margin-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+}
+
+.loginLink a {
+  color: #4f90f2;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.loginLink a:hover {
+  color: #3a7cd6;
+  text-decoration: underline;
+}
+
+.errorMessage {
+  background-color: rgba(255, 107, 107, 0.1);
+  border: 1px solid #ff6b6b;
+  color: #ff6b6b;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  width: 320px;
+  text-align: center;
+}
+
+/* Add animation for form appearance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

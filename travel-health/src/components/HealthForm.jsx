@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./healthform.module.css";
+import styles from "./HealthForm.module.css";
 
 const HealthForm = ({ onSubmit, userId }) => {
   const [formData, setFormData] = useState({
