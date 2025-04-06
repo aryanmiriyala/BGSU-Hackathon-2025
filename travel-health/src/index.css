@@ -8,3 +8,69 @@ body,
   font-family: system-ui, sans-serif;
   background-color: #f8fafc;
 }
+.dark {
+  background-color: #111827;
+  color: #f3f4f6;
+  min-height: 100vh;
+}
+
+.dark header,
+.dark main,
+.dark div,
+.dark section {
+  color: #f3f4f6;
+  background-color: #111827;
+}
+
+.dark button {
+  background-color: #1f2937;
+  color: #f3f4f6;
+  border-color: #374151;
+}
+
+.dark button:hover {
+  background-color: #374151;
+}
+
+.dark a {
+  color: #60a5fa;
+}
+body,
+.dark,
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.dark-mode-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 18px;
+  background-color: #f3f4f6;
+  color: #111827;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.dark .dark-mode-toggle {
+  background-color: #1f2937;
+  color: #f3f4f6;
+  border-color: #374151;
+}
+
+@media (max-width: 600px) {
+  .dark-mode-toggle {
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+}
