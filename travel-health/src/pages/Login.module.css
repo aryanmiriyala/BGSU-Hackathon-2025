@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #1e3a8a; /* solid background color */
+  background-color: #0b42d7; /* solid background color */
   background-image: url("/assets/world_map.png");
   background-repeat: no-repeat;
   background-position: center;
@@ -15,7 +15,7 @@
 .overlay {
   position: absolute;
   inset: 0;
-  background-color: rgba(30, 41, 59, 0.6); /* dark overlay for readability */
+  background-color: rgba(25, 115, 33, 0.5); /* dark overlay for readability */
   z-index: 0;
 }
 
@@ -37,7 +37,7 @@
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: #1e3a8a;
+  color: #0b42d7;
   text-align: center;
 }
 
@@ -83,7 +83,7 @@ p {
 }
 
 p a {
-  color: #1e3a8a;
+  color: #0b42d7;
   text-decoration: none;
 }
 
