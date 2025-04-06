@@ -35,35 +35,39 @@ const Login = ({ darkMode, toggleDarkMode }) => {
   };
 
   return (
-    <div className={`${styles.container} ${darkMode ? "dark" : ""}`}>
-      <DarkModeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <img src={logo} alt="Logo" className={styles.logo} />
-      <h1 className={styles.title}>Login</h1>
-      <form onSubmit={handleLogin} className={styles.form}>
-        <input
-          type="email"
-          placeholder="Email"
-          required
-          className={styles.input}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          required
-          className={styles.input}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit" className={styles.button}>
-          Login
-        </button>
-      </form>
-      <p>
-        Don't have an account? <Link to="/signup">Sign up</Link>
-      </p>
-    </div>
+    <div className={`${styles.wrapper} ${darkMode ? "dark" : ""}`}>
+  <div className={styles.imageSection}>
+    <img src={logo} alt="react.svg" className={styles.logo} />
+    <img src="/assets/logo.png" alt="helth" className={styles.heroImage} />
+  </div>
+
+
+  <div className={styles.formSection}>
+    {/* <DarkModeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} /> */}
+    <h1 className={styles.title}>Login</h1>
+    <form onSubmit={handleLogin} className={styles.form}>
+      <input
+        type="email"
+        placeholder="Email"
+        required
+        className={styles.input}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Password"
+        required
+        className={styles.input}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button type="submit" className={styles.button}>Login</button>
+    </form>
+    <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
+  </div>
+</div>
+
   );
 };
 
