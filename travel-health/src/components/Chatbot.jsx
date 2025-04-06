@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import styles from "./Chatbot.module.css";
+import { FiMaximize2, FiMinimize2, FiX } from "react-icons/fi";
+import ReactMarkdown from "react-markdown"; // ✅ Markdown support
 
-const Chatbot = ({ open, onClose, userId }) => {
+const Chatbot = ({ open, onClose, userId, maximized, onToggleMaximize }) => {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -13,31 +15,34 @@ const Chatbot = ({ open, onClose, userId }) => {
   const [loading, setLoading] = useState(false);
   const [userContext, setUserContext] = useState("");
 
+  // Create a ref to the chat area container for scrolling
+  const chatEndRef = useRef(null);
+
   useEffect(() => {
     const fetchUserHealthData = async () => {
       if (!userId) return;
-
       try {
         const res = await fetch(`http://localhost:5020/api/health/${userId}`);
         if (!res.ok) return;
-
         const data = await res.json();
-
         const context = Object.entries(data)
           .map(([key, value]) => {
             if (Array.isArray(value)) return `${key}: ${value.join(", ")}`;
             return `${key}: ${value}`;
           })
           .join("\n");
-
         setUserContext(context);
       } catch (error) {
         console.error("Error loading user health data:", error);
       }
     };
-
     fetchUserHealthData();
   }, [userId]);
+
+  // Scroll to the bottom of the chat area whenever messages change
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -53,8 +58,7 @@ const Chatbot = ({ open, onClose, userId }) => {
         {
           role: "system",
           content:
-            "You are a helpful travel health assistant. Use the following user health info to personalize responses:\n\n" +
-            (userContext || "No user-specific context available."),
+            "You are a helpful travel health assistant. Keep your answers short and concise using bullet points or headings if necessary. Focus only on the most relevant and actionable information. Use markdown formatting when appropriate.",
         },
         ...updatedMessages,
       ];
@@ -92,12 +96,21 @@ const Chatbot = ({ open, onClose, userId }) => {
   if (!open) return null;
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${maximized ? styles.maximized : ""}`}>
       <div className={styles.header}>
         <span>Travel Health Assistant</span>
-        <button onClick={onClose} className={styles.close}>
-          ×
-        </button>
+        <div className={styles.controls}>
+          <button
+            onClick={onToggleMaximize}
+            className={styles.iconButton}
+            title={maximized ? "Collapse" : "Maximize"}
+          >
+            {maximized ? <FiMinimize2 /> : <FiMaximize2 />}
+          </button>
+          <button onClick={onClose} className={styles.iconButton} title="Close">
+            <FiX />
+          </button>
+        </div>
       </div>
 
       <div className={styles.chatArea}>
@@ -110,8 +123,8 @@ const Chatbot = ({ open, onClose, userId }) => {
               backgroundColor: msg.role === "user" ? "#e0f7fa" : "#f1f1f1",
             }}
           >
-            <strong>{msg.role === "user" ? "You" : "Bot"}:</strong>{" "}
-            {msg.content}
+            {/* Render message with ReactMarkdown for proper formatting */}
+            <ReactMarkdown children={msg.content} skipHtml />
           </div>
         ))}
         {loading && (
@@ -119,6 +132,8 @@ const Chatbot = ({ open, onClose, userId }) => {
             <em>Typing...</em>
           </div>
         )}
+        {/* Scroll to the bottom */}
+        <div ref={chatEndRef} />
       </div>
 
       <div className={styles.inputArea}>

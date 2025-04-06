@@ -6,6 +6,7 @@ import HealthForm from "./components/HealthForm";
 import styles from "./App.module.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FiMinus, FiMaximize, FiMessageSquare } from "react-icons/fi";
 import { Moon, Sun, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -21,6 +22,7 @@ function App() {
   const [diseaseData, setDiseaseData] = useState(null);
   const [infoVisible, setInfoVisible] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
+  const [chatMaximized, setChatMaximized] = useState(false);
   const [hasHealthInfo, setHasHealthInfo] = useState(null);
 
   const toggleDarkMode = () => {
@@ -37,7 +39,6 @@ function App() {
   useEffect(() => {
     const checkHealthInfo = async () => {
       if (!userId) return;
-
       try {
         const res = await fetch(`http://localhost:5020/api/health/${userId}`);
         setHasHealthInfo(res.ok);
@@ -45,7 +46,6 @@ function App() {
         setHasHealthInfo(false);
       }
     };
-
     checkHealthInfo();
   }, [userId]);
 
@@ -118,12 +118,22 @@ function App() {
       </header>
 
 
-      <main className={styles.main}>
-        <WorldMap
-          onCountryClick={handleCountryClick}
-          selectedCountry={selectedCountry}
-        />
+      <main className={styles.mainWrapper}>
+        <div className={chatMaximized ? styles.mapShrunk : styles.mapFull}>
+          <WorldMap
+            onCountryClick={handleCountryClick}
+            selectedCountry={selectedCountry}
+          />
 
+          {selectedCountry && (
+            <div className={infoVisible ? styles.panel : styles.panelMinimized}>
+              <button
+                className={styles.toggleButton}
+                onClick={() => setInfoVisible((prev) => !prev)}
+                title={infoVisible ? "Minimize" : "Expand"}
+              >
+                {infoVisible ? <FiMinus /> : <FiMaximize />}
+              </button>
         {selectedCountry && (
           <div className={styles.panel}>
             <button
@@ -134,35 +144,46 @@ function App() {
               {infoVisible ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
             </button>
 
-            <div className={styles.countryHeader}>
-              Selected Country: <strong>{selectedCountry}</strong>
-            </div>
+              <div className={styles.countryHeader}>
+                Selected Country: <strong>{selectedCountry}</strong>
+              </div>
 
-            {infoVisible && (
-              <>
-                {!diseaseData ? (
-                  <div className={styles.loading}>
-                    <div className={styles.spinner} />
-                    <div>
-                      Loading health data for <strong>{selectedCountry}</strong>
-                      ...
+              {infoVisible && (
+                <>
+                  {!diseaseData ? (
+                    <div className={styles.loading}>
+                      <div className={styles.spinner} />
+                      <div>
+                        Loading health data for{" "}
+                        <strong>{selectedCountry}</strong>...
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className={styles.fadeIn}>
-                    <DiseaseInfo country={selectedCountry} data={diseaseData} />
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        )}
+                  ) : (
+                    <div className={styles.fadeIn}>
+                      <DiseaseInfo
+                        country={selectedCountry}
+                        data={diseaseData}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+        </div>
 
-        <Chatbot
-          open={chatOpen}
-          onClose={() => setChatOpen(false)}
-          userId={userId}
-        />
+        {chatOpen && (
+          <Chatbot
+            open={chatOpen}
+            onClose={() => {
+              setChatOpen(false);
+              setChatMaximized(false);
+            }}
+            userId={userId}
+            maximized={chatMaximized}
+            onToggleMaximize={() => setChatMaximized((prev) => !prev)}
+          />
+        )}
 
         {!chatOpen && (
           <button
@@ -170,7 +191,7 @@ function App() {
             className={styles.chatToggle}
             title="Open Chat"
           >
-            💬
+            <FiMessageSquare />
           </button>
         )}
       </main>
