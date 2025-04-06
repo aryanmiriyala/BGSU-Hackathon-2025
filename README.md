@@ -1,4 +1,4 @@
-# Project Name: Travel Helth Adviser 
+# Project Name: Travel Helth Adviser
 
 ![helth](images/helth.png)
 
@@ -10,6 +10,10 @@ VibeCoders
 
 - AI/ML
 - Health
+
+# Link to Our Video
+
+https://www.youtube.com/watch?v=JcUaDmVnMPU&feature=youtu.be
 
 # Team Members
 

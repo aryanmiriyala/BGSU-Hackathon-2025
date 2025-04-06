@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import styles from "./Chatbot.module.css";
 import { FiMaximize2, FiMinimize2, FiX } from "react-icons/fi";
-import ReactMarkdown from "react-markdown"; // ✅ Markdown support
+import ReactMarkdown from "react-markdown";
+import userHealth from "../UserHealth/health.json"; // Direct import
 
 const Chatbot = ({ open, onClose, userId, maximized, onToggleMaximize }) => {
   const [messages, setMessages] = useState([
@@ -13,33 +14,16 @@ const Chatbot = ({ open, onClose, userId, maximized, onToggleMaximize }) => {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [userContext, setUserContext] = useState("");
-
-  // Create a ref to the chat area container for scrolling
   const chatEndRef = useRef(null);
 
-  useEffect(() => {
-    const fetchUserHealthData = async () => {
-      if (!userId) return;
-      try {
-        const res = await fetch(`http://localhost:5020/api/health/${userId}`);
-        if (!res.ok) return;
-        const data = await res.json();
-        const context = Object.entries(data)
-          .map(([key, value]) => {
-            if (Array.isArray(value)) return `${key}: ${value.join(", ")}`;
-            return `${key}: ${value}`;
-          })
-          .join("\n");
-        setUserContext(context);
-      } catch (error) {
-        console.error("Error loading user health data:", error);
-      }
-    };
-    fetchUserHealthData();
-  }, [userId]);
+  // Build user context from the imported health JSON
+  const userContext = Object.entries(userHealth)
+    .map(([key, value]) => {
+      if (Array.isArray(value)) return `${key}: ${value.join(", ")}`;
+      return `${key}: ${value}`;
+    })
+    .join("\n");
 
-  // Scroll to the bottom of the chat area whenever messages change
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -57,8 +41,11 @@ const Chatbot = ({ open, onClose, userId, maximized, onToggleMaximize }) => {
       const messagesWithContext = [
         {
           role: "system",
-          content:
-            "You are a helpful travel health assistant. Keep your answers short and concise using bullet points or headings if necessary. Focus only on the most relevant and actionable information. Use markdown formatting when appropriate.",
+          content: `You are a helpful travel health assistant. Keep your answers short and actionable. Use markdown when helpful.
+
+User Health Profile:
+${userContext}
+          `,
         },
         ...updatedMessages,
       ];
@@ -123,7 +110,6 @@ const Chatbot = ({ open, onClose, userId, maximized, onToggleMaximize }) => {
               backgroundColor: msg.role === "user" ? "#e0f7fa" : "#f1f1f1",
             }}
           >
-            {/* Render message with ReactMarkdown for proper formatting */}
             <ReactMarkdown children={msg.content} skipHtml />
           </div>
         ))}
@@ -132,7 +118,6 @@ const Chatbot = ({ open, onClose, userId, maximized, onToggleMaximize }) => {
             <em>Typing...</em>
           </div>
         )}
-        {/* Scroll to the bottom */}
         <div ref={chatEndRef} />
       </div>
 

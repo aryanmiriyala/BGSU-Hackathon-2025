@@ -37,6 +37,8 @@
     "react-router-dom": "^7.5.0",
     "react-simple-maps": "^3.0.0",
     "react-toastify": "^11.0.5",
-    "topojson": "^3.0.2"
+    "topojson": "^3.0.2",
+    "bcryptjs": "^3.0.2",
+    "jsonwebtoken": "^9.0.2"
   }
 }
