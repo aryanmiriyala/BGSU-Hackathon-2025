@@ -3,8 +3,21 @@ import WorldMap from "./components/WorldMap";
 import DiseaseInfo from "./components/DiseaseInfo";
 import Chatbot from "./components/Chatbot";
 import styles from "./App.module.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  const [darkMode, setDarkMode] = useState(() => {
+    const storedMode = localStorage.getItem("darkMode");
+    return storedMode === "true";
+  });
+
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem("darkMode", newMode);
+  };
+
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [diseaseData, setDiseaseData] = useState(null);
   const [infoVisible, setInfoVisible] = useState(false);
@@ -35,7 +48,15 @@ function App() {
   };
 
   return (
-    <div className={styles.appContainer}>
+    <div className={`${styles.appContainer} ${darkMode ? "dark" : ""}`}>
+      <button
+        onClick={toggleDarkMode}
+        className="dark-mode-toggle"
+        aria-label="Toggle Dark Mode"
+      >
+        {darkMode ? "☀️" : "🌙"}
+      </button>
+
       <header className={styles.header}>Travel Health Advisory Map</header>
 
       <main className={styles.main}>
@@ -64,13 +85,16 @@ function App() {
                   <div className={styles.loading}>
                     <div className={styles.spinner} />
                     <div>
-                      Loading health data for <strong>{selectedCountry}</strong>
-                      ...
+                      Loading health data for{" "}
+                      <strong>{selectedCountry}</strong>...
                     </div>
                   </div>
                 ) : (
                   <div className={styles.fadeIn}>
-                    <DiseaseInfo country={selectedCountry} data={diseaseData} />
+                    <DiseaseInfo
+                      country={selectedCountry}
+                      data={diseaseData}
+                    />
                   </div>
                 )}
               </>
@@ -90,6 +114,9 @@ function App() {
           </button>
         )}
       </main>
+
+      {/* ✅ Toast messages appear here */}
+      <ToastContainer />
     </div>
   );
 }
