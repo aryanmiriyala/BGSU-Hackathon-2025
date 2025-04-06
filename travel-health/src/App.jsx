@@ -6,6 +6,7 @@ import HealthForm from "./components/HealthForm";
 import styles from "./App.module.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FiMinus, FiMaximize, FiMessageSquare } from "react-icons/fi";
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -35,7 +36,6 @@ function App() {
   useEffect(() => {
     const checkHealthInfo = async () => {
       if (!userId) return;
-
       try {
         const res = await fetch(`http://localhost:5020/api/health/${userId}`);
         setHasHealthInfo(res.ok);
@@ -43,7 +43,6 @@ function App() {
         setHasHealthInfo(false);
       }
     };
-
     checkHealthInfo();
   }, [userId]);
 
@@ -75,10 +74,6 @@ function App() {
     setHasHealthInfo(true);
   };
 
-  const toggleChatMaximized = () => {
-    setChatMaximized((prev) => !prev);
-  };
-
   if (hasHealthInfo === null) return <div>Loading...</div>;
 
   if (!hasHealthInfo) {
@@ -86,11 +81,7 @@ function App() {
   }
 
   return (
-    <div
-      className={`${styles.appContainer} ${darkMode ? "dark" : ""} ${
-        chatMaximized ? styles.maximized : ""
-      }`}
-    >
+    <div className={`${styles.appContainer} ${darkMode ? "dark" : ""}`}>
       <button
         onClick={toggleDarkMode}
         className="dark-mode-toggle"
@@ -101,53 +92,63 @@ function App() {
 
       <header className={styles.header}>Travel Health Advisory Map</header>
 
-      <main className={styles.main}>
-        <WorldMap
-          onCountryClick={handleCountryClick}
-          selectedCountry={selectedCountry}
-        />
+      <main className={styles.mainWrapper}>
+        <div className={chatMaximized ? styles.mapShrunk : styles.mapFull}>
+          <WorldMap
+            onCountryClick={handleCountryClick}
+            selectedCountry={selectedCountry}
+          />
 
-        {selectedCountry && (
-          <div className={styles.panel}>
-            <button
-              className={styles.toggleButton}
-              onClick={() => setInfoVisible((prev) => !prev)}
-              title={infoVisible ? "Minimize" : "Expand"}
-            >
-              {infoVisible ? "_" : "▢"}
-            </button>
+          {selectedCountry && (
+            <div className={infoVisible ? styles.panel : styles.panelMinimized}>
+              <button
+                className={styles.toggleButton}
+                onClick={() => setInfoVisible((prev) => !prev)}
+                title={infoVisible ? "Minimize" : "Expand"}
+              >
+                {infoVisible ? <FiMinus /> : <FiMaximize />}
+              </button>
 
-            <div className={styles.countryHeader}>
-              Selected Country: <strong>{selectedCountry}</strong>
-            </div>
+              <div className={styles.countryHeader}>
+                Selected Country: <strong>{selectedCountry}</strong>
+              </div>
 
-            {infoVisible && (
-              <>
-                {!diseaseData ? (
-                  <div className={styles.loading}>
-                    <div className={styles.spinner} />
-                    <div>
-                      Loading health data for <strong>{selectedCountry}</strong>
-                      ...
+              {infoVisible && (
+                <>
+                  {!diseaseData ? (
+                    <div className={styles.loading}>
+                      <div className={styles.spinner} />
+                      <div>
+                        Loading health data for{" "}
+                        <strong>{selectedCountry}</strong>...
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className={styles.fadeIn}>
-                    <DiseaseInfo country={selectedCountry} data={diseaseData} />
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        )}
+                  ) : (
+                    <div className={styles.fadeIn}>
+                      <DiseaseInfo
+                        country={selectedCountry}
+                        data={diseaseData}
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+        </div>
 
-        <Chatbot
-          open={chatOpen}
-          onClose={() => setChatOpen(false)}
-          userId={userId}
-          maximized={chatMaximized}
-          toggleMaximized={toggleChatMaximized}
-        />
+        {chatOpen && (
+          <Chatbot
+            open={chatOpen}
+            onClose={() => {
+              setChatOpen(false);
+              setChatMaximized(false);
+            }}
+            userId={userId}
+            maximized={chatMaximized}
+            onToggleMaximize={() => setChatMaximized((prev) => !prev)}
+          />
+        )}
 
         {!chatOpen && (
           <button
@@ -155,7 +156,7 @@ function App() {
             className={styles.chatToggle}
             title="Open Chat"
           >
-            💬
+            <FiMessageSquare />
           </button>
         )}
       </main>

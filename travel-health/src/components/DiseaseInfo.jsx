@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./DiseaseInfo.module.css";
 import VaccinationChecklist from "./VaccinationChecklist";
+import { FiShield, FiActivity, FiCheckCircle, FiInfo } from "react-icons/fi";
 
 const DiseaseInfo = ({ country, data }) => {
   if (!country || !data) return null;
@@ -41,20 +42,19 @@ const DiseaseInfo = ({ country, data }) => {
   const diseaseData = organizeData(data);
 
   return (
-    <div style={{ maxHeight: "80vh", overflowY: "auto", padding: "15px" }}>
+    <div style={{ maxHeight: "100%", overflowY: "auto", padding: "15px" }}>
       <h3 style={{ color: "#1e40af", marginBottom: "20px" }}>
         Travel Health Advisory for {country}
       </h3>
 
-      <VaccinationChecklist
-        country={country}
-        diseaseData={diseaseData}
-      />
+      <div className={styles.checklistWrapper}>
+        <VaccinationChecklist country={country} diseaseData={diseaseData} />
+      </div>
 
       {diseaseData.vaccineRequired.length > 0 && (
         <div className={styles.vaccineSection}>
           <div className={styles.sectionHeader}>
-            <span style={{ fontSize: "24px" }}>💉</span>
+            <FiShield size={22} color="#dc2626" />
             <h4 className={styles.sectionTitle}>
               Required Vaccinations
               <span className={styles.tag}>
@@ -71,13 +71,7 @@ const DiseaseInfo = ({ country, data }) => {
                     {disease.diseaseName}
                   </h5>
                   {disease.occurrences > 1 && (
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "#666",
-                        display: "block",
-                      }}
-                    >
+                    <span style={{ fontSize: "12px", color: "#666" }}>
                       Reported in {disease.occurrences} regions
                     </span>
                   )}
@@ -89,8 +83,8 @@ const DiseaseInfo = ({ country, data }) => {
                       disease.riskLevel === "high"
                         ? "#dc2626"
                         : disease.riskLevel === "medium"
-                          ? "#f59e0b"
-                          : "#10b981",
+                        ? "#f59e0b"
+                        : "#10b981",
                   }}
                 >
                   {disease.riskLevel.charAt(0).toUpperCase() +
@@ -126,13 +120,25 @@ const DiseaseInfo = ({ country, data }) => {
                   {disease.recoveryRate}%
                 </div>
               </div>
+
+              <div className={styles.buttonGroup}>
+                <button className={styles.iconButton}>
+                  <FiInfo size={16} />
+                  More Info
+                </button>
+              </div>
             </div>
           ))}
         </div>
       )}
 
       <div className={styles.recommendations}>
-        <h4>Travel Recommendations</h4>
+        <h4>
+          <FiCheckCircle
+            style={{ marginRight: "6px", verticalAlign: "middle" }}
+          />
+          Travel Recommendations
+        </h4>
         <ul>
           {diseaseData.vaccineRequired.length > 0 && (
             <>
@@ -152,6 +158,7 @@ const DiseaseInfo = ({ country, data }) => {
       {diseaseData.other.length > 0 && (
         <div className={styles.otherSection}>
           <h4 className={styles.otherSectionTitle}>
+            <FiActivity />
             Other Health Considerations
             <span className={styles.otherTag}>
               {diseaseData.other.length} diseases
@@ -205,6 +212,13 @@ const DiseaseInfo = ({ country, data }) => {
                     <br />
                     {disease.treatmentType}
                   </div>
+                </div>
+
+                <div className={styles.buttonGroup}>
+                  <button className={styles.iconButton}>
+                    <FiInfo size={16} />
+                    More Info
+                  </button>
                 </div>
               </div>
             ))}
