@@ -1,6 +1,6 @@
 .container {
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y: hidden;
   padding: 15px;
 }
 
