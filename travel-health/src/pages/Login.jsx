@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./Login.module.css";
+import styles from "./Login.module.css"
+import logo from "../assets/logo.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const Login = () => {
 
   return (
     <div className={styles.container}>
+      <img src={logo} alt="Logo" className={styles.logo} />
       <h1 className={styles.title}>Login</h1>
       <form onSubmit={handleLogin} className={styles.form}>
         <input

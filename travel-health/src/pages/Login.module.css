@@ -39,3 +39,9 @@
 .button:hover {
   background-color: #374151;
 }
+
+.logo {
+  width: 150px;
+  margin: 0 auto 20px;
+  display: block;
+}
