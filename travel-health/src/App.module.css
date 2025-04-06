@@ -12,10 +12,35 @@
   color: white;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between; /* changed from center */
+  padding: 0 16px; /* add some spacing */
+  animation: fadeDrop 0.4s ease-out;
+}
+
+
+.headerLeft {
   font-size: 20px;
   font-weight: 600;
-  animation: fadeDrop 0.4s ease-out;
+}
+
+.headerRight {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.headerButton {
+  background: #374151;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.headerButton:hover {
+  background: #4b5563;
 }
 
 .main {
