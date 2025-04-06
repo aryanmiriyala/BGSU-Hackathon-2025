@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 const Login = ({ darkMode, toggleDarkMode }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(""); // For future use
+  const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,14 +23,14 @@ const Login = ({ darkMode, toggleDarkMode }) => {
 
       const data = await res.json();
       if (data.userId) {
-        sessionStorage.setItem("userId", data.userId);
+        localStorage.setItem("userId", data.userId); // ✅ store in localStorage
         navigate("/map");
       } else {
-        alert("User login failed.");
+        toast.error("User login failed.");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("An error occurred during login.");
+      toast.error("An error occurred during login.");
     }
   };
 

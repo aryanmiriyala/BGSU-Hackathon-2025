@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./healthform.module.css";
 
-const HealthForm = ({ onSubmit }) => {
+const HealthForm = ({ onSubmit, userId }) => {
   const [formData, setFormData] = useState({
     chronicConditions: [],
     pastSurgeries: "",
@@ -22,6 +22,7 @@ const HealthForm = ({ onSubmit }) => {
     "Heart Disease",
     "Autoimmune Disorders",
   ];
+
   const symptomOptions = [
     "Fever",
     "Cough",
@@ -32,6 +33,7 @@ const HealthForm = ({ onSubmit }) => {
     "Headaches",
     "Digestive issues",
   ];
+
   const assistiveOptions = ["Wheelchair", "Hearing Aid", "Cane/Walker"];
 
   const handleChange = (e) => {
@@ -55,7 +57,10 @@ const HealthForm = ({ onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userId = sessionStorage.getItem("userId") || "userHealthInfo";
+    if (!userId) {
+      console.error("User ID is missing.");
+      return;
+    }
 
     // Fill in empty fields as "none"
     const sanitizedData = {
@@ -80,7 +85,7 @@ const HealthForm = ({ onSubmit }) => {
       });
 
       if (res.ok) {
-        onSubmit(); // Switches view in App.jsx
+        onSubmit(); // Notify App to switch view
       } else {
         console.error("Failed to save health info.");
       }

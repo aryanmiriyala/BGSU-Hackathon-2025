@@ -1,13 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import styles from "./Chatbot.module.css"; // use the CSS Module
+import styles from "./Chatbot.module.css";
 
-const Chatbot = ({ open, onClose }) => {
+const Chatbot = ({ open, onClose, userId }) => {
   const [messages, setMessages] = useState([
-    { role: "assistant", content: "Hi! Ask me anything about travel health." },
+    {
+      role: "assistant",
+      content: "Hi! Ask me anything about your travel health.",
+    },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userContext, setUserContext] = useState("");
+
+  useEffect(() => {
+    const fetchUserHealthData = async () => {
+      if (!userId) return;
+
+      try {
+        const res = await fetch(`http://localhost:5020/api/health/${userId}`);
+        if (!res.ok) return;
+
+        const data = await res.json();
+
+        const context = Object.entries(data)
+          .map(([key, value]) => {
+            if (Array.isArray(value)) return `${key}: ${value.join(", ")}`;
+            return `${key}: ${value}`;
+          })
+          .join("\n");
+
+        setUserContext(context);
+      } catch (error) {
+        console.error("Error loading user health data:", error);
+      }
+    };
+
+    fetchUserHealthData();
+  }, [userId]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -19,11 +49,21 @@ const Chatbot = ({ open, onClose }) => {
     setLoading(true);
 
     try {
+      const messagesWithContext = [
+        {
+          role: "system",
+          content:
+            "You are a helpful travel health assistant. Use the following user health info to personalize responses:\n\n" +
+            (userContext || "No user-specific context available."),
+        },
+        ...updatedMessages,
+      ];
+
       const response = await axios.post(
         "https://api.mistral.ai/v1/chat/completions",
         {
           model: "mistral-large-latest",
-          messages: updatedMessages,
+          messages: messagesWithContext,
         },
         {
           headers: {
@@ -36,11 +76,12 @@ const Chatbot = ({ open, onClose }) => {
       const aiReply = response.data.choices[0].message;
       setMessages([...updatedMessages, aiReply]);
     } catch (err) {
+      console.error("Mistral error:", err);
       setMessages([
         ...updatedMessages,
         {
           role: "assistant",
-          content: "Oops! Something went wrong. Please try again later.",
+          content: "Oops! Something went wrong while processing your request.",
         },
       ]);
     } finally {
