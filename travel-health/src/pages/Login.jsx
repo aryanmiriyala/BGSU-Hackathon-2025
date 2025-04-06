@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
-import logo from "../assets/logo.png";
-import DarkModeToggle from "../components/DarkModeToggle";
 import { toast } from "react-toastify";
 
-const Login = ({ darkMode, toggleDarkMode }) => {
+const Login = ({ darkMode }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +21,7 @@ const Login = ({ darkMode, toggleDarkMode }) => {
 
       const data = await res.json();
       if (data.userId) {
-        localStorage.setItem("userId", data.userId); // ✅ store in localStorage
+        localStorage.setItem("userId", data.userId);
         navigate("/map");
       } else {
         toast.error("User login failed.");
@@ -36,14 +34,9 @@ const Login = ({ darkMode, toggleDarkMode }) => {
 
   return (
     <div className={`${styles.wrapper} ${darkMode ? "dark" : ""}`}>
-  <div className={styles.imageSection}>
-    <img src={logo} alt="react.svg" className={styles.logo} />
-    <img src="/assets/logo.png" alt="helth" className={styles.heroImage} />
-  </div>
-
-
-  <div className={styles.formSection}>
-    {/* <DarkModeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} /> */}
+  <div className={styles.overlay} />
+  <div className={styles.centeredContent}>
+    <h1 className={styles.appName}>Travel Health Adviser</h1>
     <h1 className={styles.title}>Login</h1>
     <form onSubmit={handleLogin} className={styles.form}>
       <input
@@ -62,9 +55,13 @@ const Login = ({ darkMode, toggleDarkMode }) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button type="submit" className={styles.button}>Login</button>
+      <button type="submit" className={styles.button}>
+        Login
+      </button>
     </form>
-    <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
+    <p>
+      Don't have an account? <Link to="/signup">Sign up</Link>
+    </p>
   </div>
 </div>
 
