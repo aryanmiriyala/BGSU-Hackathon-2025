@@ -3,20 +3,30 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 dotenv.config();
 
 const app = express();
 
+// ESM-safe __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 app.use(
   cors({
-    origin: "*", // Allow all origins during development
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow all methods
-    allowedHeaders: ["Content-Type", "Accept"], // Allow these headers
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Accept"],
   })
 );
 
 app.use(express.json());
+
+// ---------------- MongoDB Setup ----------------
 
 mongoose
   .connect(process.env.MONGODB_URI)
@@ -36,20 +46,93 @@ const diseaseSchema = new mongoose.Schema({
 
 const Disease = mongoose.model("Disease", diseaseSchema);
 
-// Get grouped diseases for a country
+// ---------------- Directories ----------------
+
+const userInfoDir = path.join(__dirname, "UserInfo");
+const userHealthDir = path.join(__dirname, "UserHealth");
+
+if (!fs.existsSync(userInfoDir)) fs.mkdirSync(userInfoDir);
+if (!fs.existsSync(userHealthDir)) fs.mkdirSync(userHealthDir);
+
+// ---------------- Routes ----------------
+
+// Save or update user in UsersInfo.json
+app.post("/api/user", (req, res) => {
+  const { name, email } = req.body;
+  if (!name || !email) {
+    return res.status(400).json({ message: "Missing name or email" });
+  }
+
+  const usersFile = path.join(userInfoDir, "UsersInfo.json");
+  let users = {};
+
+  if (fs.existsSync(usersFile)) {
+    try {
+      users = JSON.parse(fs.readFileSync(usersFile, "utf-8"));
+    } catch {
+      users = {};
+    }
+  }
+
+  const existingUser = Object.values(users).find((u) => u.email === email);
+  if (existingUser) {
+    return res.json({
+      message: "User already exists",
+      userId: existingUser.userId,
+    });
+  }
+
+  const userId = Math.floor(100000 + Math.random() * 900000).toString();
+  users[userId] = { userId, name, email };
+
+  fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
+  res.status(201).json({ message: "New user added", userId });
+});
+
+// Save health info per user
+app.post("/api/health/:userId", (req, res) => {
+  let { userId } = req.params;
+  if (!userId || userId === "null") userId = "userHealthInfo";
+
+  const filePath = path.join(userHealthDir, `${userId}.json`);
+  fs.writeFileSync(filePath, JSON.stringify(req.body, null, 2));
+  res.json({ message: `Health info saved as ${userId}.json` });
+});
+
+// Get health info
+app.get("/api/health/:userId", (req, res) => {
+  let { userId } = req.params;
+  if (!userId || userId === "null") userId = "userHealthInfo";
+
+  const filePath = path.join(userHealthDir, `${userId}.json`);
+  if (fs.existsSync(filePath)) {
+    const data = fs.readFileSync(filePath, "utf-8");
+    res.json(JSON.parse(data));
+  } else {
+    res.status(404).json({ message: "No health info found." });
+  }
+});
+
+// Get grouped diseases from MongoDB
 app.get("/api/diseases/:country", async (req, res) => {
   try {
-    const countryName = req.params.country;
-    console.log("Fetching diseases for:", countryName);
+    let countryName = req.params.country;
+
+    // Map full country names to their codes
+    const countryNameMapping = {
+      "United States of America": "USA",
+      "United Kingdom": "UK",
+      "United Arab Emirates": "UAE",
+      // Add more mappings as needed
+    };
+
+    // Check if the country name exists in the mapping
+    if (countryNameMapping[countryName]) {
+      countryName = countryNameMapping[countryName];
+    }
 
     const diseases = await Disease.aggregate([
-      // Match the country
-      {
-        $match: {
-          country: new RegExp(countryName, "i"),
-        },
-      },
-      // Group by disease name
+      { $match: { country: new RegExp(countryName, "i") } },
       {
         $group: {
           _id: "$diseaseName",
@@ -62,7 +145,6 @@ app.get("/api/diseases/:country", async (req, res) => {
           occurrences: { $sum: 1 },
         },
       },
-      // Reshape the data to match the expected format
       {
         $project: {
           _id: 0,
@@ -76,20 +158,10 @@ app.get("/api/diseases/:country", async (req, res) => {
           occurrences: 1,
         },
       },
-      // Sort by population affected
-      {
-        $sort: {
-          populationAffected: -1,
-        },
-      },
+      { $sort: { populationAffected: -1 } },
     ]);
 
-    if (!diseases || diseases.length === 0) {
-      return res.json([]);
-    }
-
-    console.log(`Found ${diseases.length} unique diseases for ${countryName}`);
-    res.json(diseases);
+    res.json(diseases || []);
   } catch (error) {
     console.error("Error getting diseases:", error);
     res.status(500).json({ message: error.message });

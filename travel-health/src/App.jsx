@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import WorldMap from "./components/WorldMap";
 import DiseaseInfo from "./components/DiseaseInfo";
 import Chatbot from "./components/Chatbot";
+import HealthForm from "./components/HealthForm";
 import styles from "./App.module.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,6 +23,27 @@ function App() {
   const [diseaseData, setDiseaseData] = useState(null);
   const [infoVisible, setInfoVisible] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
+  const [hasHealthInfo, setHasHealthInfo] = useState(null);
+
+  const userId = sessionStorage.getItem("userId");
+
+  useEffect(() => {
+    const checkHealthInfo = async () => {
+      if (!userId) {
+        setHasHealthInfo(false);
+        return;
+      }
+
+      try {
+        const res = await fetch(`http://localhost:5020/api/health/${userId}`);
+        setHasHealthInfo(res.ok);
+      } catch {
+        setHasHealthInfo(false);
+      }
+    };
+
+    checkHealthInfo();
+  }, [userId]);
 
   const fetchDiseaseData = async (country) => {
     try {
@@ -46,6 +68,16 @@ function App() {
       setInfoVisible(true);
     }
   };
+
+  const handleHealthFormSubmitted = () => {
+    setHasHealthInfo(true);
+  };
+
+  if (hasHealthInfo === null) return <div>Loading...</div>;
+
+  if (!hasHealthInfo) {
+    return <HealthForm onSubmit={handleHealthFormSubmitted} />;
+  }
 
   return (
     <div className={`${styles.appContainer} ${darkMode ? "dark" : ""}`}>
