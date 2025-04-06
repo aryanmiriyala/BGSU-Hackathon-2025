@@ -1,7 +1,8 @@
 .container {
   max-height: 80vh;
-  overflow-y: hidden;
+  overflow-y: auto;
   padding: 15px;
+  padding-bottom: 20px;
 }
 
 .heading {
@@ -83,20 +84,12 @@
   z-index: 50;
 }
 
-
-
-
-
 .toggleContainer {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 50;
 }
-
-
-
-
 
 .recommendations {
   background-color: #e0f2fe;
@@ -126,8 +119,10 @@
 .otherSection {
   background-color: #f8fafc;
   padding: 20px;
+  padding-bottom: 7px;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
+  margin-bottom: 40px; /* Add space below the last section */
 }
 
 .otherSectionTitle {

@@ -42,7 +42,7 @@ const DiseaseInfo = ({ country, data }) => {
   const diseaseData = organizeData(data);
 
   return (
-    <div style={{ maxHeight: "100%", overflowY: "auto", padding: "15px" }}>
+    <div className={styles.container}>
       <h3 style={{ color: "#1e40af", marginBottom: "20px" }}>
         Travel Health Advisory for {country}
       </h3>
