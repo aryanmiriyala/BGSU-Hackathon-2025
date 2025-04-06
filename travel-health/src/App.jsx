@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Moon, Sun, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -130,7 +131,7 @@ function App() {
               onClick={() => setInfoVisible((prev) => !prev)}
               title={infoVisible ? "Minimize" : "Expand"}
             >
-              {infoVisible ? "_" : "▢"}
+              {infoVisible ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
             </button>
 
             <div className={styles.countryHeader}>
