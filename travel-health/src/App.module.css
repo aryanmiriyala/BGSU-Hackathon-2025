@@ -3,7 +3,10 @@
   width: 100vw;
   display: flex;
   flex-direction: column;
-  font-family: system-ui, sans-serif;
+}
+
+.appContainer.maximized {
+  margin-right: 30%; /* matches the maximized chatbot width */
 }
 
 .header {

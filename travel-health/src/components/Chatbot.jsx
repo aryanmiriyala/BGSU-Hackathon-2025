@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./Chatbot.module.css";
 
-const Chatbot = ({ open, onClose, userId }) => {
+const Chatbot = ({ open, onClose, userId, maximized, toggleMaximized }) => {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
@@ -92,9 +92,12 @@ const Chatbot = ({ open, onClose, userId }) => {
   if (!open) return null;
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${maximized ? styles.maximized : ""}`}>
       <div className={styles.header}>
         <span>Travel Health Assistant</span>
+        <button onClick={toggleMaximized} className={styles.maximize}>
+          {maximized ? "↘" : "↔"}
+        </button>
         <button onClick={onClose} className={styles.close}>
           ×
         </button>
