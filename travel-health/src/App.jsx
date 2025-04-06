@@ -13,7 +13,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
     const storedMode = localStorage.getItem("darkMode");
-    return storedMode === "true";
+    return storedMode === "false";
   });
 
   const [userId, setUserId] = useState(null);
