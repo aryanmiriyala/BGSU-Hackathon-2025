@@ -1,0 +1,114 @@
+.container {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.heading {
+  color: #1e40af;
+  margin-bottom: 20px;
+}
+
+/* Section: Required Vaccinations */
+.vaccineSection {
+  background-color: #fee2e2;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #fecaca;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tag {
+  font-size: 14px;
+  background-color: #dc2626;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+/* Disease Card */
+.diseaseCard {
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.diseaseHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.riskBadge {
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.diseaseMeta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  font-size: 14px;
+}
+
+/* Travel Recommendations */
+.recommendations {
+  background-color: #e0f2fe;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #bae6fd;
+  margin-bottom: 20px;
+}
+
+.recommendations h4 {
+  margin: 0 0 15px 0;
+  color: #0369a1;
+}
+
+.recommendations ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+/* Other Health Considerations */
+.otherSection {
+  background-color: #f8fafc;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.otherSectionTitle {
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.otherTag {
+  font-size: 14px;
+  background-color: #64748b;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
