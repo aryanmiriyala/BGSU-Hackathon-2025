@@ -7,11 +7,14 @@ import styles from "./App.module.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FiMinus, FiMaximize, FiMessageSquare } from "react-icons/fi";
+import { Moon, Sun, LogOut } from "lucide-react";
+import { motion } from "framer-motion";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
     const storedMode = localStorage.getItem("darkMode");
-    return storedMode === "true";
+    return storedMode === "false";
   });
 
   const [userId, setUserId] = useState(null);
@@ -82,15 +85,38 @@ function App() {
 
   return (
     <div className={`${styles.appContainer} ${darkMode ? "dark" : ""}`}>
-      <button
-        onClick={toggleDarkMode}
-        className="dark-mode-toggle"
-        aria-label="Toggle Dark Mode"
-      >
-        {darkMode ? "☀️" : "🌙"}
-      </button>
+ 
 
-      <header className={styles.header}>Travel Health Advisory Map</header>
+      <header className={styles.header}>
+        <div className={styles.headerTitle}>
+             Travel <span className={styles.highlightTitle}>Health Advisory</span> Map
+        </div>
+        <div className={styles.headerRight}>
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={toggleDarkMode}
+            className={styles.headerButton}
+            title="Toggle Dark Mode"
+          >
+            {darkMode ? <Sun size={24} /> : <Moon size={24} />}
+          </motion.button>
+
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            onClick={() => {
+              localStorage.clear();
+              window.location.reload();
+            }}
+            className={styles.headerButton}
+            title="Logout"
+          >
+            <LogOut size={22} className={styles.icon} />
+            <span className={styles.buttonText}>Logout</span>
+          </motion.button>
+
+        </div>
+      </header>
+
 
       <main className={styles.mainWrapper}>
         <div className={chatMaximized ? styles.mapShrunk : styles.mapFull}>
@@ -108,6 +134,15 @@ function App() {
               >
                 {infoVisible ? <FiMinus /> : <FiMaximize />}
               </button>
+        {selectedCountry && (
+          <div className={styles.panel}>
+            <button
+              className={styles.toggleButton}
+              onClick={() => setInfoVisible((prev) => !prev)}
+              title={infoVisible ? "Minimize" : "Expand"}
+            >
+              {infoVisible ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            </button>
 
               <div className={styles.countryHeader}>
                 Selected Country: <strong>{selectedCountry}</strong>

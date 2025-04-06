@@ -7,15 +7,101 @@
 }
 
 .header {
-  height: 60px;
-  background-color: #1f2937;
+  height: 88px; /* increased from 60px/72px */
+  background-color: #2e3845;
   color: white;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 20px;
+  justify-content: space-between;
+  padding: 0 32px;
+  font-size: 24px;
   font-weight: 600;
   animation: fadeDrop 0.4s ease-out;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+
+.headerTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #279cce;
+  background: none !important;
+  background-color: transparent !important;
+  
+}
+
+.highlightTitle {
+  color: white;
+}
+
+
+
+
+.headerLeft {
+  flex: 1;
+}
+
+.headerRight {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+
+
+.headerButton {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.headerButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: white;
+}
+
+.buttonText {
+  font-weight: 500;
+  background-color: transparent;
+}
+
+.toggleButton {
+  background: none;
+  border: 2px solid rgba(0, 0, 0, 0.537); /* light gray border */
+  border-radius: 6px;
+  padding: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggleButton:hover {
+  border-color: rgba(0, 0, 0, 0.3); /* darken slightly on hover */
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.toggleButton {
+  position: relative;
+  top: 8px; /* try 2–4px to align with text */
+}
+
+.highlight {
+  background: linear-gradient(to right, #fbbf24, #f97316); /* yellow-orange for 'Health Advisory' */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .mainWrapper {
@@ -41,7 +127,7 @@
   top: 20px;
   left: 20px;
   bottom: 20px;
-  background-color: white;
+  background-color: transparent;
   padding: 16px 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
@@ -49,8 +135,9 @@
   z-index: 10;
   min-width: 420px;
   max-width: 420px;
-  overflow-y: auto;
+  overflow-y: hidden;
   animation: slideIn 0.3s ease-out;
+  backdrop-filter: blur(10px);
 }
 .panelMinimized {
   position: absolute;
@@ -192,4 +279,35 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+:global(.dark) {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+:global(.dark) .header {
+  background-color: #1e293b;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:global(.dark) .panel {
+  background-color: #273549;
+  color: #f1f5f9;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:global(.dark) .headerButton {
+
+  background: transparent;
+  box-shadow: none;
+}
+
+:global(.dark) .headerButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .chatToggle {
+  background-color: #1e293b;
+  color: #f9fafb;
 }

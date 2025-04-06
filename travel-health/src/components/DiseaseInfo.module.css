@@ -1,6 +1,6 @@
 .container {
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y: hidden;
   padding: 15px;
 }
 
@@ -75,6 +75,28 @@
   gap: 10px;
   font-size: 14px;
 }
+
+.toggleContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 50;
+}
+
+
+
+
+
+.toggleContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 50;
+}
+
+
+
+
 
 .recommendations {
   background-color: #e0f2fe;

@@ -7,3 +7,25 @@
   width: 100% !important;
   height: 100% !important;
 }
+
+.toggleButton {
+  background: none;
+  border: 2px solid rgba(0, 0, 0, 0.1); /* light gray border */
+  border-radius: 6px;
+  padding: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggleButton:hover {
+  border-color: rgba(0, 0, 0, 0.3); /* darken slightly on hover */
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.toggleButton {
+  position: relative;
+  top: 4px; /* try 2–4px to align with text */
+}
