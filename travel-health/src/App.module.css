@@ -113,7 +113,7 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  background-color: white;
+  background-color: transparent;
   padding: 10px 16px;
   border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -125,6 +125,7 @@
   word-break: break-word;
   overflow-y: hidden;
   animation: slideIn 0.3s ease-out;
+  backdrop-filter: blur(10px);
 }
 
 .toggleButton {
