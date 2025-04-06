@@ -3,10 +3,7 @@
   width: 100vw;
   display: flex;
   flex-direction: column;
-}
-
-.appContainer.maximized {
-  margin-right: 30%; /* matches the maximized chatbot width */
+  font-family: system-ui, sans-serif;
 }
 
 .header {
@@ -21,39 +18,81 @@
   animation: fadeDrop 0.4s ease-out;
 }
 
-.main {
-  flex: 1;
+.mainWrapper {
+  display: flex;
+  height: 100%;
   position: relative;
+}
+
+.mapFull {
+  flex-grow: 1;
+  transition: flex-grow 0.4s ease;
+  min-width: 0;
+}
+
+.mapShrunk {
+  flex-grow: 0.75;
+  transition: flex-grow 0.4s ease;
+  min-width: 0;
 }
 
 .panel {
   position: absolute;
   top: 20px;
   left: 20px;
+  bottom: 20px;
   background-color: white;
-  padding: 10px 16px;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   font-size: 14px;
   z-index: 10;
-  min-width: 400px;
-  max-width: 400px;
-  max-height: 80vh;
-  word-break: break-word;
+  min-width: 420px;
+  max-width: 420px;
   overflow-y: auto;
   animation: slideIn 0.3s ease-out;
+}
+.panelMinimized {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  z-index: 10;
+  min-width: 420px;
+  max-width: 420px;
+  max-height: none;
+  overflow: hidden;
+  height: auto;
+  transition: all 0.3s ease-in-out;
 }
 
 .toggleButton {
   position: absolute;
-  top: 6px;
+  top: 10px;
   right: 10px;
-  background: none;
+  background-color: #f3f4f6;
   border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
   font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  color: #888;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  color: #1f2937;
   transition: all 0.2s ease-in-out;
+}
+
+.toggleButton:hover {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  transform: scale(1.05);
 }
 
 .countryHeader {
@@ -78,25 +117,41 @@
   position: absolute;
   bottom: 20px;
   right: 20px;
-  padding: 12px 16px;
-  border-radius: 50%;
-  font-size: 20px;
+  padding: 16px 24px;
+  font-size: 18px;
+  font-weight: 600;
   background-color: #1f2937;
   color: white;
   border: none;
+  border-radius: 16px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   z-index: 10;
   transition: transform 0.2s ease-in-out;
+  width: 260px;
+  text-align: center;
+  line-height: 1.4;
+  white-space: normal;
 }
 
-.chatToggle:hover,
-.toggleButton:hover {
+.chatToggle:hover {
   transform: scale(1.1);
-  color: #1e40af;
+  color: #e0f2fe;
 }
 
-/* Animations */
+.fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #1f2937;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
 @keyframes slideIn {
   from {
     transform: translateX(-10px);
@@ -137,17 +192,4 @@
   100% {
     transform: rotate(360deg);
   }
-}
-
-.spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #1f2937;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  animation: spin 1s linear infinite;
-}
-
-.fadeIn {
-  animation: fadeIn 0.3s ease-in-out;
 }
