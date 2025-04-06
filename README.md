@@ -46,6 +46,7 @@ VITE_MISTRAL_API_KEY=your_mistral_api_key_here
 
 ```bash
 npm run dev
+node server.js
 ```
 
 Visit `http://localhost:5173` in your browser.
@@ -99,9 +100,3 @@ travel-health/
 ## License
 
 MIT
-
-
-## Database connection
-mongosh "mongodb+srv://gebhartlt:n57zTw%24QKB2CgV3i@cluster0.jsacasx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
-To run: node server.js
