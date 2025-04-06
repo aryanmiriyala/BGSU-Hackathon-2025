@@ -116,7 +116,21 @@ app.get("/api/health/:userId", (req, res) => {
 // Get grouped diseases from MongoDB
 app.get("/api/diseases/:country", async (req, res) => {
   try {
-    const countryName = req.params.country;
+    let countryName = req.params.country;
+
+    // Map full country names to their codes
+    const countryNameMapping = {
+      "United States of America": "USA",
+      "United Kingdom": "UK",
+      "United Arab Emirates": "UAE",
+      // Add more mappings as needed
+    };
+
+    // Check if the country name exists in the mapping
+    if (countryNameMapping[countryName]) {
+      countryName = countryNameMapping[countryName];
+    }
+
     const diseases = await Disease.aggregate([
       { $match: { country: new RegExp(countryName, "i") } },
       {
