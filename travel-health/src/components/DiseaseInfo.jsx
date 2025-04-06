@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./DiseaseInfo.module.css";
+import VaccinationChecklist from "./VaccinationChecklist";
 
 const DiseaseInfo = ({ country, data }) => {
   if (!country || !data) return null;
@@ -40,8 +41,15 @@ const DiseaseInfo = ({ country, data }) => {
   const diseaseData = organizeData(data);
 
   return (
-    <div className={styles.container}>
-      <h3 className={styles.heading}>Travel Health Advisory for {country}</h3>
+    <div style={{ maxHeight: "80vh", overflowY: "auto", padding: "15px" }}>
+      <h3 style={{ color: "#1e40af", marginBottom: "20px" }}>
+        Travel Health Advisory for {country}
+      </h3>
+
+      <VaccinationChecklist
+        country={country}
+        diseaseData={diseaseData}
+      />
 
       {diseaseData.vaccineRequired.length > 0 && (
         <div className={styles.vaccineSection}>
