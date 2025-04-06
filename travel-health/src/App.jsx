@@ -63,7 +63,7 @@ function App() {
   if (hasHealthInfo === null) return <div>Loading...</div>;
 
   if (!hasHealthInfo) {
-    return <HealthForm onSubmitSuccess={handleHealthFormSubmitted} />;
+    return <HealthForm onSubmit={handleHealthFormSubmitted} />;
   }
 
   return (
