@@ -9,7 +9,6 @@
   margin-bottom: 20px;
 }
 
-/* Section: Required Vaccinations */
 .vaccineSection {
   background-color: #fee2e2;
   padding: 20px;
@@ -21,27 +20,31 @@
 .sectionHeader {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #fecaca;
+  padding-bottom: 4px;
 }
 
 .sectionTitle {
   margin: 0;
-  color: #dc2626;
+  color: #b91c1c;
+  font-size: 18px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
 .tag {
-  font-size: 14px;
-  background-color: #dc2626;
+  font-size: 13px;
+  background-color: #b91c1c;
   color: white;
-  padding: 2px 8px;
-  border-radius: 12px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-weight: 500;
 }
 
-/* Disease Card */
 .diseaseCard {
   background-color: white;
   padding: 15px;
@@ -62,6 +65,8 @@
   padding: 2px 8px;
   border-radius: 4px;
   font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
 .diseaseMeta {
@@ -82,7 +87,17 @@
 
 
 
-/* Travel Recommendations */
+.toggleContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 50;
+}
+
+
+
+
+
 .recommendations {
   background-color: #e0f2fe;
   padding: 20px;
@@ -94,14 +109,20 @@
 .recommendations h4 {
   margin: 0 0 15px 0;
   color: #0369a1;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .recommendations ul {
   margin: 0;
   padding-left: 20px;
+  font-size: 14px;
+  color: #333;
 }
 
-/* Other Health Considerations */
 .otherSection {
   background-color: #f8fafc;
   padding: 20px;
@@ -114,12 +135,46 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #334155;
 }
 
 .otherTag {
-  font-size: 14px;
+  font-size: 13px;
   background-color: #64748b;
   color: white;
-  padding: 2px 8px;
-  border-radius: 12px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.buttonGroup {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px; /* Increased gap for more spacing */
+  padding-left: 10px; /* Added padding to align better with text */
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #1e40af;
+  color: white;
+  border: none;
+  padding: 8px 16px; /* Adjusted padding to add spacing */
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.iconButton:hover {
+  background-color: #1e3a8a;
+}
+
+.checklistWrapper {
+  margin-bottom: 20px;
 }
