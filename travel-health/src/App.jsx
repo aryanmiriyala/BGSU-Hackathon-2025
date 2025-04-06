@@ -12,10 +12,7 @@ import { motion } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 function App() {
-  const [darkMode, setDarkMode] = useState(() => {
-    const storedMode = localStorage.getItem("darkMode");
-    return storedMode === "false";
-  });
+  const [darkMode, setDarkMode] = useState(false); // Default to light mode
 
   const [userId, setUserId] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -28,8 +25,15 @@ function App() {
   const toggleDarkMode = () => {
     const newMode = !darkMode;
     setDarkMode(newMode);
-    localStorage.setItem("darkMode", newMode);
+    localStorage.setItem("darkMode", newMode); // Save user preference
   };
+
+  useEffect(() => {
+    const storedMode = localStorage.getItem("darkMode");
+    if (storedMode === "true") {
+      setDarkMode(true); // Apply dark mode if previously set
+    }
+  }, []);
 
   useEffect(() => {
     const storedId = localStorage.getItem("userId");
