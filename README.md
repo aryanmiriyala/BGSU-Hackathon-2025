@@ -15,7 +15,7 @@ VibeCoders
 
 - Aryan Miriyala
 - Cristian Vasu
-- Daltiso Mtalimanja
+- Dalitso Mtalimanja
 - Tibor Gebhartl
 
 # Travel Health Advisory Map
