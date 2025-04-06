@@ -1,5 +1,6 @@
 // src/components/DiseaseInfo.jsx
 import React from "react";
+import VaccinationChecklist from './VaccinationChecklist';
 
 const DiseaseInfo = ({ country, data }) => {
     if (!country || !data) return null;
@@ -45,6 +46,12 @@ const DiseaseInfo = ({ country, data }) => {
             <h3 style={{ color: "#1e40af", marginBottom: "20px" }}>
                 Travel Health Advisory for {country}
             </h3>
+
+            {/* Add the VaccinationChecklist component */}
+            <VaccinationChecklist
+                country={country}
+                diseaseData={diseaseData}
+            />
 
             {/* Required Vaccinations Section */}
             {diseaseData.vaccineRequired.length > 0 && (
