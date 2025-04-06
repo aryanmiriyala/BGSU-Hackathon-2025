@@ -18,6 +18,7 @@ function App() {
   const [diseaseData, setDiseaseData] = useState(null);
   const [infoVisible, setInfoVisible] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
+  const [chatMaximized, setChatMaximized] = useState(false);
   const [hasHealthInfo, setHasHealthInfo] = useState(null);
 
   const toggleDarkMode = () => {
@@ -74,6 +75,10 @@ function App() {
     setHasHealthInfo(true);
   };
 
+  const toggleChatMaximized = () => {
+    setChatMaximized((prev) => !prev);
+  };
+
   if (hasHealthInfo === null) return <div>Loading...</div>;
 
   if (!hasHealthInfo) {
@@ -81,7 +86,11 @@ function App() {
   }
 
   return (
-    <div className={`${styles.appContainer} ${darkMode ? "dark" : ""}`}>
+    <div
+      className={`${styles.appContainer} ${darkMode ? "dark" : ""} ${
+        chatMaximized ? styles.maximized : ""
+      }`}
+    >
       <button
         onClick={toggleDarkMode}
         className="dark-mode-toggle"
@@ -136,6 +145,8 @@ function App() {
           open={chatOpen}
           onClose={() => setChatOpen(false)}
           userId={userId}
+          maximized={chatMaximized}
+          toggleMaximized={toggleChatMaximized}
         />
 
         {!chatOpen && (
