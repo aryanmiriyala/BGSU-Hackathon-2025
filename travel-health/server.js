@@ -64,15 +64,13 @@ app.post("/api/user", (req, res) => {
   }
 
   const usersFile = path.join(userInfoDir, "UsersInfo.json");
-  let users = {};
 
-  if (fs.existsSync(usersFile)) {
-    try {
-      users = JSON.parse(fs.readFileSync(usersFile, "utf-8"));
-    } catch {
-      users = {};
-    }
+  if (!fs.existsSync(usersFile)) {
+    // Create an empty UsersInfo.json file if it doesn't exist
+    fs.writeFileSync(usersFile, JSON.stringify({}, null, 2));
   }
+
+  let users = JSON.parse(fs.readFileSync(usersFile, "utf-8"));
 
   const existingUser = Object.values(users).find((u) => u.email === email);
   if (existingUser) {

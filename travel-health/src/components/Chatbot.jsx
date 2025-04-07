@@ -3,7 +3,6 @@ import axios from "axios";
 import styles from "./Chatbot.module.css";
 import { FiMaximize2, FiMinimize2, FiX } from "react-icons/fi";
 import ReactMarkdown from "react-markdown";
-import userHealth from "../UserHealth/health.json"; // Direct import
 
 const Chatbot = ({ open, onClose, userId, maximized, onToggleMaximize }) => {
   const [messages, setMessages] = useState([
@@ -14,15 +13,32 @@ const Chatbot = ({ open, onClose, userId, maximized, onToggleMaximize }) => {
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userHealth, setUserHealth] = useState(null);
   const chatEndRef = useRef(null);
 
-  // Build user context from the imported health JSON
-  const userContext = Object.entries(userHealth)
-    .map(([key, value]) => {
-      if (Array.isArray(value)) return `${key}: ${value.join(", ")}`;
-      return `${key}: ${value}`;
-    })
-    .join("\n");
+  // Fetch user health data from the backend when the component mounts or when userId changes
+  useEffect(() => {
+    if (userId) {
+      axios
+        .get(`http://localhost:5020/api/health/${userId}`)
+        .then((response) => {
+          setUserHealth(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching user health data:", error);
+        });
+    }
+  }, [userId]);
+
+  // Build user context from the fetched health data
+  const userContext = userHealth
+    ? Object.entries(userHealth)
+        .map(([key, value]) => {
+          if (Array.isArray(value)) return `${key}: ${value.join(", ")}`;
+          return `${key}: ${value}`;
+        })
+        .join("\n")
+    : "";
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
